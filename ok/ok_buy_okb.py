@@ -1,16 +1,7 @@
-import okex.account_api as account
-import okex.ett_api as ett
-import okex.futures_api as future
-import okex.lever_api as lever
 import okex.spot_api as spot
-import okex.swap_api as swap
 import json
-import ms_sql as sql
-import schedule
-import time
-import sys
+from common import ms_sql as sql
 import datetime
-from string import Template
 
 ms = sql.MSSQL(host="", user="", pwd="", db="")
 
@@ -40,6 +31,7 @@ def okb():
         print(okb_dict['best_bid'])
 
         # todo:未完成
+
 
     # # 将这一分钟的数据存进数据库
     # print(ticker_dict)

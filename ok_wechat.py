@@ -1,13 +1,7 @@
-import okex.account_api as account
-import okex.ett_api as ett
 import okex.futures_api as future
-import okex.lever_api as lever
 import okex.spot_api as spot
 import okex.swap_api as swap
-import json
-import ms_sql as sql
-import itchat
-from itchat.content import *
+from common import ms_sql as sql
 
 ms = sql.MSSQL(host="", user="", pwd="", db="")
 

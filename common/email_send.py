@@ -1,8 +1,7 @@
 from smtplib import SMTP_SSL
 from email.header import Header
 from email.mime.text import MIMEText
-import ms_sql as sql
-
+from common import ms_sql as sql
 
 # 将 数据表 tab_send_email 未发送的邮件 发送 并标记为已发送
 

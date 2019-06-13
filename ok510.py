@@ -1,14 +1,9 @@
-import okex.account_api as account
-import okex.ett_api as ett
 import okex.futures_api as future
-import okex.lever_api as lever
 import okex.spot_api as spot
 import okex.swap_api as swap
-import json
-import ms_sql as sql
+from common import ms_sql as sql
 import schedule
 import time
-import sys
 import datetime
 
 # 记录所有币扶量化资金变化
