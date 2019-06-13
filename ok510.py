@@ -118,16 +118,7 @@ def okex():
                     # ms.ExecNonQuery(newsql)
                     # newsql = "insert into okex (usdt,name,btc,eth,eos,etc) values('" + all + "','" + keyvalue + "','" + btc_amunt['equity'] + ",'" + eth_amunt['equity'] + ",'" + eos_amunt['equity'] + ",'" + etc_amunt['equity'] + "')"
 
-                    #   CREATE TABLE tab_okex_price_history(
-                    # 	[id] [int] IDENTITY(1,1) NOT NULL,
-                    # 	name varchar(10) not null,
-                    # 	present float not null,
-                    # 	this_week float not null,
-                    # 	next_week float not null,
-                    # 	quarter float not null,
-                    # 	create_time [datetime] NOT NULL  DEFAULT (getdate()),
-                    # 	status bit default(1),
-                    # )
+
 
                     newsql = "insert into okex (usdt,name,btc,eth,eos,etc) values('" + all + "','" + keyvalue + "','" + btc_amunt[
                         'equity'] + "','" + eth_amunt['equity'] + "','" + eos_amunt['equity'] + "','" + etc_amunt['equity'] + "')"

@@ -15,19 +15,7 @@ from string import Template
 ms = sql.MSSQL(host="", user="", pwd="", db="")
 
 # 记录okex暴涨暴跌
-#   CREATE TABLE tab_minutes_price(
-# 	[id] [int] IDENTITY(1,1) NOT NULL,
-# 	token_price varchar(200) not null,
-# 	create_time [datetime] NOT NULL  DEFAULT (getdate())
-# )
-#   CREATE TABLE tab_price_change(
-# 	[id] [int] IDENTITY(1,1) NOT NULL,
-# 	before_price float not null,
-# 	now_price float not null,
-# 	change float not null,
-# 	status bit not null default (1),
-# 	create_time [datetime] NOT NULL  DEFAULT (getdate())
-# )
+
 with open("database/accounts.json",'r') as load_f:
     load_dict = json.load(load_f)
     api_key=load_dict['myokapi']['api_key']

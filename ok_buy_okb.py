@@ -15,14 +15,7 @@ from string import Template
 ms = sql.MSSQL(host="", user="", pwd="", db="")
 
 # 记录okb的买入卖出策略
-# CREATE TABLE tab_bd_buy(
-# 	[id] [int] IDENTITY(1,1) NOT NULL,
-# 	token varchar(10) not null,
-# 	price float not null,
-# 	[action] float not null,
-# 	status bit not null default (1),
-# 	create_time [datetime] NOT NULL  DEFAULT (getdate())
-# )
+
 
 with open("database/accounts.json",'r') as load_f:
     load_dict = json.load(load_f)
@@ -45,6 +38,8 @@ def okb():
         okb_dict = spotAPI.get_specific_ticker('OKB-USDT')
         # best_ask 卖一价  last 最新成交价
         print(okb_dict['best_bid'])
+
+        # todo:未完成
 
     # # 将这一分钟的数据存进数据库
     # print(ticker_dict)

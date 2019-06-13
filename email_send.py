@@ -6,14 +6,7 @@ import ms_sql as sql
 
 # 将 数据表 tab_send_email 未发送的邮件 发送 并标记为已发送
 
-#   CREATE TABLE tab_send_email(
-# 	[id] [int] IDENTITY(1,1) NOT NULL,
-# 	address_to varchar(30) not null,
-# 	mail_subject nvarchar(300) not null,
-# 	mail_text nvarchar(500) not null,
-# 	create_time [datetime] NOT NULL  DEFAULT (getdate()),
-# 	status bit default(1),
-# )
+
 ms = sql.MSSQL(host="", user="", pwd="", db="")
 
 with open("database/accounts.json", 'r') as load_f:
