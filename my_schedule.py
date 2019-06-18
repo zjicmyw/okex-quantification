@@ -21,6 +21,6 @@ try:
    sched.add_job(func=my_yijia, trigger='interval', minutes=3)
    sched.start()
 except Exception as e:
-   newsql = "insert into tab_send_email (address_to,mail_subject,mail_text) values('e7lian@qq.com','okex脚本出现问题'+'" + nowtime + "','" + str(e) + "')"
+   newsql = "insert into tab_send_email (address_to,mail_subject,mail_text) values('e7lian@qq.com','定时任务出现问题'+'" + nowtime + "','" + str(e) + "')"
    print(str(e))
    ms.ExecNonQuery(newsql)

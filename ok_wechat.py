@@ -22,8 +22,8 @@ ms = sql.MSSQL(host="", user="", pwd="", db="")
 
 def job():
     inputval=input("请输入查询：")
-
-    key=msg['Text'].split('询')
+    key = inputval.split('询')
+    # key=msg['Text'].split('询')
 
     if(len(key)==2 and key[0]=='查'):
         keyvalue=key[1]
@@ -41,6 +41,8 @@ def job():
             lastday_eth = '0.0'
             lastday_eos = '0.0'
             lastday_etc = '0.0'
+
+            sys.exit(0)
             if (row is not None):
                 lastday = str(row[1])
                 lastday_btc = str(row[4])

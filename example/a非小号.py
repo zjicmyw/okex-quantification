@@ -38,7 +38,7 @@ url_str:
 
 '''
 
-url_str = 'https://www.feixiaohao.com/search/?word=fpc'
+url_str = 'https://www.feixiaohao.com/search/?word='
 
 print("访问的网页地址:",url_str)
 

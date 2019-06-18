@@ -54,6 +54,7 @@ def skyrocketing():
             print(price_change)
             # 将这一分钟的数据暴涨暴跌存进数据库
             send_mail_sql2 = "insert into tab_price_change (before_price,now_price,change) values(%s,%s,%s)" % (str(history_list_dict[item]),str(ticker_dict[item]),str(price_change))
+            print(send_mail_sql2)
             ms.ExecNonQuery(send_mail_sql2)
 
 skyrocketing()

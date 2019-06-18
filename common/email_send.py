@@ -2,7 +2,8 @@ from smtplib import SMTP_SSL
 from email.header import Header
 from email.mime.text import MIMEText
 from common import ms_sql as sql
-
+import json
+import sys
 # 将 数据表 tab_send_email 未发送的邮件 发送 并标记为已发送
 
 
@@ -40,7 +41,9 @@ def mail():
         mail_info["mail_text"] = list(item)[2]
         send()
 
-        newsql = "update tab_send_email set status =0 where mail_text='" + mail_info[
-            "mail_text"] + "' and mail_subject='" + mail_info["mail_subject"] + "' and address_to='" + mail_info[
-                     "to"] + "' and status = 1 "
+        newsql = 'update tab_send_email set status =0 where mail_text="%s" and mail_subject="%s" and address_to="%s" and status = 1 ' % (
+        mail_info['mail_text'], mail_info['mail_subject'], mail_info['address_to'])
+        # newsql = "update tab_send_email set status =0 where mail_text='" + mail_info[
+        #     "mail_text"] + "' and mail_subject='" + mail_info["mail_subject"] + "' and address_to='" + mail_info[
+        #              "to"] + "' and status = 1 "
         ms.ExecNonQuery(newsql)
