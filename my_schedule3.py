@@ -1,14 +1,12 @@
-from ok import ok_price_history as okph
 from ok import ok_bandao as bandao
 from common import ms_sql as sql, email_send as es
 from apscheduler.schedulers.blocking import BlockingScheduler
-import logging
+# import logging
 
-logging.basicConfig()
-logging.getLogger('apscheduler').setLevel(logging.DEBUG)
+# logging.basicConfig()
+# logging.getLogger('apscheduler').setLevel(logging.DEBUG)
 
 ms = sql.MSSQL(host="", user="", pwd="", db="")
-bandao.bd()
 # 所有定时任务
 try:
    sched = BlockingScheduler()
@@ -16,14 +14,11 @@ try:
 
    def my_email():
       es.mail()
-   def my_yijia():
-      okph.yijia()
    def my_bd():
       bandao.bd()
 
-   sched.add_job(func=my_email, trigger='interval', minutes=1)
-   sched.add_job(func=my_bd, trigger='interval', minutes=3)
-   # sched.add_job(func=my_yijia, trigger='interval', minutes=3)
+   sched.add_job(func=my_email, trigger='interval', seconds=90)
+   sched.add_job(func=my_bd, trigger='interval', minutes=4)
    sched.start()
 except Exception as e:
    newsql = "insert into tab_send_email (address_to,mail_subject,mail_text) values('e7lian@qq.com','定时任务出现问题'+'" + nowtime + "','" + str(e) + "')"
