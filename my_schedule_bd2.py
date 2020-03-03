@@ -1,4 +1,4 @@
-from ok import ok_bandao as bandao
+from ok import ok_bd2 as bandao
 from common import ms_sql as sql, email_send as es
 from apscheduler.schedulers.blocking import BlockingScheduler
 

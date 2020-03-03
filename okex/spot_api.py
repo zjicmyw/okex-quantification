@@ -51,8 +51,8 @@ class SpotAPI(Client):
     #    return self._request_with_params(GET, SPOT_ORDERS_LIST, params, cursor=True)
 
     # query orders list v3
-    def get_orders_list(self, status, instrument_id, froms='', to='', limit='100'):
-        params = {'status': status, 'instrument_id': instrument_id, 'limit': limit}
+    def get_orders_list(self, state, instrument_id, froms='', to='', limit='100'):
+        params = {'state': state, 'instrument_id': instrument_id, 'limit': limit}
         if froms:
             params['from'] = froms
         if to:
