@@ -38,15 +38,14 @@ def bd():
 
     mail_text='最新一次时间:{0},动作：{1}，成交均价{2};'.format(my_last_spot1['created_at'],my_last_spot1['side'],my_last_spot1['price_avg'])
     mail_text+='上两次时间:{0},动作：{1}，成交均价{2};'.format(my_last_spot2['created_at'],my_last_spot2['side'],my_last_spot2['price_avg'])
-    print(mail_text)
    
 
-    get_last_text = "select top 1 mail_text from tab_send_email order by create_time desc"
+    get_last_text = "select top 1 mail_text from tab_send_email where type=1 order by create_time desc"
     last_text = ms.ExecQueryOne(get_last_text)
 
     # 如果邮件内容不为空，并且和上次不同，插入数据库，以发送提醒邮件
     if mail_text != '' and mail_text != last_text[0]:
-        send_mail_sql = "insert into tab_send_email (address_to,mail_subject,mail_text) values('e7lian@qq.com','半岛检测','" + mail_text + "')"
+        send_mail_sql = "insert into tab_send_email (address_to,mail_subject,mail_text,type) values('e7lian@qq.com','现货开单','" + mail_text + "','1')"
         print(mail_text)
         ms.ExecNonQuery(send_mail_sql)
     else:
