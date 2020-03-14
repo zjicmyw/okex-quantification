@@ -5,7 +5,7 @@ import os
 # 得到当前根目录
 o_path = os.getcwd()  # 返回当前工作目录
 sys.path.append(o_path)  # 添加自己指定的搜索路径
-import okex.futures_api as future
+from okex import futures_api as future
 from common import tools
 
 
@@ -19,8 +19,7 @@ futureAPI = future.FutureAPI(api_key, seceret_key, passphrase, True)
 
 # 记录okex期货下单 并发邮件
 def bd():
-    nowtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print('期货检测：'+'\033[0;34;40m\t' + nowtime + ': \033[0m')
+    tools.time_print('期货检测')
     mail_text='' # 邮件内容
 
     try:
@@ -36,9 +35,9 @@ def bd():
             mail_text=my_future[0]['long_avg_cost']+'开多。上次动作：'+my_future[0]['long_avg_cost']+'开空，'+my_future[0]['long_settlement_price']+'平空'
     except Exception as e:
         print("ok_baodao.py出現异常:", e)
-        
+
     if mail_text != '':
-        tools.alert_mail('期货开单', mail_text, 2)
+        tools.alert_mail_1('期货开单', mail_text, 2)
 
 if __name__ == "__main__":
     bd()

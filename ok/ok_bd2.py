@@ -20,8 +20,7 @@ spotAPI = spot.SpotAPI(api_key, seceret_key, passphrase, True)
 # 记录okexBTC现货量化下单 并发邮件
 
 def bd():
-    nowtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print('现货买入检测：'+'\033[0;34;40m\t' + nowtime + ': \033[0m')
+    tools.time_print('现货检测')
     mail_text = ''  # 邮件内容
 
     try:
@@ -41,7 +40,7 @@ def bd():
         print("ok_bd2.py出現异常:", e)
         
     if mail_text != '':
-        tools.alert_mail('现货开单', mail_text, 1)
+        tools.alert_mail_1('现货开单', mail_text, 1)
 
 if __name__ == "__main__":
     bd()
