@@ -2,16 +2,17 @@
 
 ---
 
-## 基础脚本
+## common文件夹:基础脚本 
 
 - email_send.py 发送邮件
-- ms_sql.py 保存到数据库
-- my_schedule.py 定时任务 
+- ms_sql.py 数据库
+- tools.py 个人工具 
 
-## okapi脚本
+##  ok文件夹:okapi脚本 
 - ok510.py  定时记录几个账号的资金变化
-- ob_buy_okb.py 记录okb的买入卖出策略
-- ok_price_history 记录ok期货出现溢价
+- ok_baodao.py 提醒期货开仓
+- ok_bd2 提醒现货BTC买入
+- straddle 记录ok期货出现溢价，提醒套利机会
 - ok_skyrocketing 记录ok暴涨暴跌
 
 
@@ -25,6 +26,7 @@
 	address_to varchar(30) not null,
 	mail_subject nvarchar(300) not null,
 	mail_text nvarchar(500) not null,
+	type tinyint not null,
 	create_time [datetime] NOT NULL  DEFAULT (getdate()),
 	status bit default(1),
 )
@@ -33,15 +35,15 @@
 - 记录几个账号的资金
 ```
   CREATE TABLE tab_okex_price_history(
-                    	[id] [int] IDENTITY(1,1) NOT NULL,
-                    	name varchar(10) not null,
-                    	present float not null,
-                    	this_week float not null,
-                    	next_week float not null,
-                    	quarter float not null,
-                    	create_time [datetime] NOT NULL  DEFAULT (getdate()),
-                    	status bit default(1),
-                    )
+    [id] [int] IDENTITY(1,1) NOT NULL,
+    name varchar(10) not null,
+    present float not null,
+    this_week float not null,
+    next_week float not null,
+    quarter float not null,
+    create_time [datetime] NOT NULL  DEFAULT (getdate()),
+    status bit default(1),
+)
 ```
 
 - 记录okb的买入卖出策略
