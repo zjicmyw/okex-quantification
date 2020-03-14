@@ -2,19 +2,19 @@ import pymssql
 import json
 
 with open("database/accounts.json", 'r') as load_f:
-    load_dict = json.load(load_f)
-    host1 = load_dict['database']['host']
-    user1 = load_dict['database']['user']
-    pwd1 = load_dict['database']['pwd']
-    db1 = load_dict['database']['db']
+    database_info = json.load(load_f)['database']
+    host = database_info['host']
+    user = database_info['user']
+    pwd = database_info['pwd']
+    db = database_info['db']
 
 
 class MSSQL:
-    def __init__(self, host, user, pwd, db):
-        self.host = host1
-        self.user = user1
-        self.pwd = pwd1
-        self.db = db1
+    def __init__(self):
+        self.host = host
+        self.user = user
+        self.pwd = pwd
+        self.db = db
 
     def __GetConnect(self):
         if not self.db:

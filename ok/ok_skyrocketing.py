@@ -3,15 +3,15 @@ import json
 from common import ms_sql as sql
 import datetime
 
-ms = sql.MSSQL(host="", user="", pwd="", db="")
+ms = sql.MSSQL()
 
 # 记录okex暴涨暴跌
 
 with open("database/accounts.json",'r') as load_f:
-    load_dict = json.load(load_f)
-    api_key=load_dict['myokapi']['api_key']
-    seceret_key=load_dict['myokapi']['seceret_key']
-    passphrase=load_dict['myokapi']['passphrase']
+    myokapi_info = json.load(load_f)['myokapi']
+    api_key=myokapi_info['api_key']
+    seceret_key=myokapi_info['seceret_key']
+    passphrase=myokapi_info['passphrase']
 
 def skyrocketing():
     nowtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')

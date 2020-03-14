@@ -3,7 +3,7 @@ import okex.spot_api as spot
 import okex.swap_api as swap
 from common import ms_sql as sql
 
-ms = sql.MSSQL(host="", user="", pwd="", db="")
+ms = sql.MSSQL()
 
 # itchat.auto_login(enableCmdQR=True)
 #

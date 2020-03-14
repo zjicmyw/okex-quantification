@@ -3,7 +3,7 @@ from common import ms_sql as sql, email_send as es
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 
-ms = sql.MSSQL(host="", user="", pwd="", db="")
+ms = sql.MSSQL()
 # 所有定时任务
 try:
    sched = BlockingScheduler()

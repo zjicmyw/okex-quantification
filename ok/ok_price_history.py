@@ -1,16 +1,21 @@
+import json
+import sys
+import os
+# 得到当前根目录
+o_path = os.getcwd()  # 返回当前工作目录
+sys.path.append(o_path)  # 添加自己指定的搜索路径
 import okex.futures_api as future
 import okex.spot_api as spot
-import json
 from common import ms_sql as sql
 import datetime
 
-ms = sql.MSSQL(host="", user="", pwd="", db="")
+ms = sql.MSSQL()
 
 with open("database/accounts.json",'r') as load_f:
-    load_dict = json.load(load_f)
-    api_key=load_dict['myokapi']['api_key']
-    seceret_key=load_dict['myokapi']['seceret_key']
-    passphrase=load_dict['myokapi']['passphrase']
+    myokapi_info = json.load(load_f)['myokapi']
+    api_key=myokapi_info['api_key']
+    seceret_key=myokapi_info['seceret_key']
+    passphrase=myokapi_info['passphrase']
 
 
 # 记录okex期货出现溢价 并发邮件
@@ -43,14 +48,16 @@ def yijia():
                 ticket[future_ticker['instrument_id']] = future_ticker['last']
                 rate = (float(future_ticker['last']) / float(ticket[ticket['name']]) * 100 - 100)
                 ticket[future_ticker['instrument_id'] + '溢价'] = '%.2f' % rate + '%'
-                if (rate > 3 or rate < -3) and ('190628' in future_ticker['instrument_id']):
+                if (rate > 4 or rate < -5) and ('200626' in future_ticker['instrument_id']):
+                    mail_text = mail_text + '\r\n' + future_ticker['instrument_id'] + '次季溢价:' + str('%.2f' % rate + '%')
+                elif (rate > 1.6 or rate < -2) and ('200327' in future_ticker['instrument_id']):
                     mail_text = mail_text + '\r\n' + future_ticker['instrument_id'] + '季度溢价:' + str('%.2f' % rate + '%')
-                elif (rate > 1 or rate < -1) and ('190628' not in future_ticker['instrument_id']):
+                elif (rate > 0.8 or rate < -1) and ('200327' not in future_ticker['instrument_id']) and ('200626' not in future_ticker['instrument_id']):
                     mail_text = mail_text + '\r\n' + future_ticker['instrument_id'] + '周溢价:' + str('%.2f' % rate + '%')
     # [{'name': 'ETH-USD', 'ETH-USD': '171.78', 'ETH-USD-190517': '170.476', 'ETH-USD-190517溢价': '-0.76%', 'ETH-USD-190628': '171.191', 'ETH-USD-190628溢价': '-0.34%', 'ETH-USD-190510': '170.634', 'ETH-USD-190510溢价': '-0.67%'}]
     # print(ticker_list)
-    # print(mail_text)
-    # sys.exit(0)
+    print(mail_text)
+    sys.exit(0)
     # 判断上一次时间在2小时之前 并且时间在8点到晚上12点 则插入信息
     today = datetime.datetime.today()
     get_last_time = "select * from tab_send_email where create_time > '" + (
@@ -68,4 +75,4 @@ def yijia():
         pass
 
 
-# yijia()
+yijia()

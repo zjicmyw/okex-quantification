@@ -7,7 +7,7 @@ import time
 import datetime
 
 # 记录所有币扶量化资金变化
-ms = sql.MSSQL(host="", user="", pwd="", db="")
+ms = sql.MSSQL()
 
 # def job():
 #    print("I'm working...")

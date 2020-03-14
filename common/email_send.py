@@ -7,7 +7,7 @@ import sys
 # 将 数据表 tab_send_email 未发送的邮件 发送 并标记为已发送
 
 
-ms = sql.MSSQL(host="", user="", pwd="", db="")
+ms = sql.MSSQL()
 
 with open("database/accounts.json", 'r') as load_f:
     load_dict = json.load(load_f)

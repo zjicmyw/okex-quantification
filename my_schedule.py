@@ -7,7 +7,7 @@ import logging
 logging.basicConfig()
 logging.getLogger('apscheduler').setLevel(logging.DEBUG)
 
-ms = sql.MSSQL(host="", user="", pwd="", db="")
+ms = sql.MSSQL()
 bandao.bd()
 # 所有定时任务
 try:
