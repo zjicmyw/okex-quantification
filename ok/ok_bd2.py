@@ -9,7 +9,7 @@ sys.path.append(o_path)  # 添加自己指定的搜索路径
 from okex import spot_api as spot
 from common import tools
 
-with open("database/accounts.json", 'r') as load_f:
+with open("json/accounts.json", 'r') as load_f:
     myokapi_info = json.load(load_f)['myokapi']
     api_key = myokapi_info['api_key']
     seceret_key = myokapi_info['seceret_key']

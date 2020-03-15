@@ -1,7 +1,7 @@
 import pymssql
 import json
 
-with open("database/accounts.json", 'r') as load_f:
+with open("json/accounts.json", 'r') as load_f:
     database_info = json.load(load_f)['database']
     host = database_info['host']
     user = database_info['user']
