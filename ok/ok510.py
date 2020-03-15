@@ -1,7 +1,7 @@
 import okex.futures_api as future
 import okex.spot_api as spot
 import okex.swap_api as swap
-from common import ms_sql as sql
+from utils import ms_sql as sql
 import schedule
 import time
 import datetime

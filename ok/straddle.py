@@ -6,9 +6,9 @@ o_path = os.getcwd()  # 返回当前工作目录
 sys.path.append(o_path)  # 添加自己指定的搜索路径
 from okex import spot_api as spot
 from okex import futures_api as future
-from common import tools
+from utils import tools
 
-with open("json/accounts.json",'r') as load_f:
+with open("../json/accounts.json",'r') as load_f:
     myokapi_info = json.load(load_f)['myokapi']
     api_key=myokapi_info['api_key']
     seceret_key=myokapi_info['seceret_key']
@@ -57,7 +57,7 @@ def straddle():
         sys.exit(0)
 
     if mail_text != '':
-        tools.alert_mail_1('溢价检测', mail_text, 3)
+        tools.alert_mail_2('溢价检测', mail_text, 3)
     
 if __name__ == "__main__":
     straddle()

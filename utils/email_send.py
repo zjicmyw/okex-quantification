@@ -1,7 +1,7 @@
 from smtplib import SMTP_SSL
 from email.header import Header
 from email.mime.text import MIMEText
-from common import ms_sql as sql
+from utils import ms_sql as sql
 import json
 import sys
 # 将 数据表 tab_send_email 未发送的邮件 发送 并标记为已发送
@@ -9,7 +9,7 @@ import sys
 
 ms = sql.MSSQL()
 
-with open("json/accounts.json", 'r') as load_f:
+with open("../json/accounts.json", 'r') as load_f:
     load_dict = json.load(load_f)
     mail_info = load_dict['mail_info']
 

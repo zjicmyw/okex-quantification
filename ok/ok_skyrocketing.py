@@ -1,13 +1,13 @@
 import okex.spot_api as spot
 import json
-from common import ms_sql as sql
+from utils import ms_sql as sql
 import datetime
 
 ms = sql.MSSQL()
 
 # 记录okex暴涨暴跌
 
-with open("json/accounts.json",'r') as load_f:
+with open("../json/accounts.json",'r') as load_f:
     myokapi_info = json.load(load_f)['myokapi']
     api_key=myokapi_info['api_key']
     seceret_key=myokapi_info['seceret_key']
