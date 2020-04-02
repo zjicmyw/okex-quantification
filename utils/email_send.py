@@ -9,7 +9,7 @@ import sys
 
 ms = sql.MSSQL()
 
-with open("../json/accounts.json", 'r') as load_f:
+with open("json/accounts.json", 'r') as load_f:
     load_dict = json.load(load_f)
     mail_info = load_dict['mail_info']
 
