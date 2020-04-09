@@ -6,22 +6,8 @@ import schedule
 import time
 import datetime
 
-# 记录所有币扶量化资金变化
+# 记录多个量化账户量化资金变化
 ms = sql.MSSQL()
-
-# def job():
-#    print("I'm working...")
-# schedule.every(2).seconds.do(job)
-# schedule.every(10).minutes.do(job)
-# schedule.every().hour.do(job)
-# schedule.every().day.at("19:10").do(job)
-# schedule.every(5).to(10).days.do(job)
-# schedule.every().wednesday.at("19:10").do(job)
-#
-# while True:
-#    schedule.run_pending()
-#     # 每隔10秒检测一次
-#    time.sleep(6)
 
 # keyvalue=input("请输入查询：")
 

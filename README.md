@@ -10,11 +10,11 @@
 	- tools.py 个人工具 
 
 -  ./ok :okapi脚本 
-	- ok510.py  定时记录几个账号的资金变化
+	- account_record.py  定时记录几个账号的资金变化
 	- ok_baodao.py 提醒期货开仓
-	- ok_bd2 提醒现货BTC买入
-	- straddle 记录ok期货出现溢价，提醒套利机会
-	- ok_skyrocketing 记录ok暴涨暴跌
+	- spot_record 提醒现货BTC买入
+	- straddle_info 记录ok期货出现溢价，提醒套利机会
+	- skyrocketing_info 记录ok暴涨暴跌
 
 
 

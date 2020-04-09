@@ -14,6 +14,7 @@ with open(o_path+"/json/accounts.json",'r') as load_f:
     passphrase=myokapi_info['passphrase']
 futureAPI = future.FutureAPI(api_key, seceret_key, passphrase, True)
 
+instrument='BTC-USD-200626'
 
 # 记录okex期货下单 并发邮件
 def bd():
@@ -21,7 +22,7 @@ def bd():
     mail_text='' # 邮件内容
 
     try:
-        result = futureAPI.get_specific_position('BTC-USD-200626') 
+        result = futureAPI.get_specific_position(instrument) 
         # long_qty  short_qty 空仓数量
         # long_avg_cost  short_avg_cost 开仓平均价 
         # long_settlement_price short_settlement_price  结算基准价      

@@ -1,5 +1,5 @@
 from ok import ok_price_history as okph
-from ok import ok_bandao as bandao
+from ok import future_record as bandao
 from utils import ms_sql as sql, email_send as es
 from apscheduler.schedulers.blocking import BlockingScheduler
 import logging

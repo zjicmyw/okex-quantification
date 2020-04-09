@@ -8,7 +8,7 @@ from okex import spot_api as spot
 from okex import futures_api as future
 from utils import tools
 
-with open("../json/accounts.json",'r') as load_f:
+with open(o_path+"/json/accounts.json",'r') as load_f:
     myokapi_info = json.load(load_f)['myokapi']
     api_key=myokapi_info['api_key']
     seceret_key=myokapi_info['seceret_key']
@@ -19,7 +19,7 @@ futureAPI = future.FutureAPI(api_key, seceret_key, passphrase, True)
 
 # 期现套利
 # 记录okex期货出现溢价 并发邮件
-def straddle():
+def straddle_info():
     tools.time_print('溢价检测')
     mail_text = ''
 
@@ -60,6 +60,6 @@ def straddle():
         tools.alert_mail_2('溢价检测', mail_text, 3)
     
 if __name__ == "__main__":
-    straddle()
+    straddle_info()
 
 

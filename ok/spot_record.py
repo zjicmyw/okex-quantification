@@ -8,11 +8,13 @@ sys.path.append(o_path)  # 添加自己指定的搜索路径
 from okex import spot_api as spot
 from utils import tools
 
-with open("../json/accounts.json", 'r') as load_f:
+with open(o_path+"/json/accounts.json",'r') as load_f:
     myokapi_info = json.load(load_f)['myokapi']
     api_key = myokapi_info['api_key']
     seceret_key = myokapi_info['seceret_key']
     passphrase = myokapi_info['passphrase']
+
+instrument='BTC-USDT'
 
 spotAPI = spot.SpotAPI(api_key, seceret_key, passphrase, True)
 
@@ -23,7 +25,7 @@ def bd():
     mail_text = ''  # 邮件内容
 
     try:
-        result = spotAPI.get_orders_list(state='2', instrument_id='BTC-USDT')
+        result = spotAPI.get_orders_list(state='2', instrument_id=instrument)
 
         # side	String	buy 或 sell
         # price_avg	String	成交均价
@@ -36,7 +38,7 @@ def bd():
         mail_text += '上两次时间:{0},动作：{1}，成交均价{2};'.format(
             my_last_spot2['created_at'], my_last_spot2['side'], my_last_spot2['price_avg'])
     except Exception as e:
-        print("ok_bd2.py出現异常:", e)
+        print("spot_record.py出現异常:", e)
         
     if mail_text != '':
         tools.alert_mail_1('现货开单', mail_text, 1)
