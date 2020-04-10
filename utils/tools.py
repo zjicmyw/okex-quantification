@@ -15,6 +15,7 @@ def time_print(title):
     print(title + '\033[0;34;40m\t' + now_time + ': \033[0m')
 
 
+
 '''
 报警邮件
 类型1：检测到和上次不同时，发送提醒邮件
@@ -39,11 +40,17 @@ def alert_mail_1(mail_subject, mail_text, mail_type):
         if sql_send_mail != '':
             print('发送邮件', mail_subject, mail_text)
             ms.ExecNonQuery(sql_send_mail)
+            return True
+        else:
+            return False
 
     except Exception as e:
         print('tools.py/tools-alert_mail_1 出現异常:', e)
         print(sql_get_last)
         print(sql_send_mail)
+        return False
+
+
 
 
 '''
@@ -56,7 +63,8 @@ def alert_mail_2(mail_subject, mail_text, mail_type):
     sql_send_mail = ''
     now_time = datetime.datetime.now()
     # 2小时之前的时间
-    time_2_before = (now_time - datetime.timedelta(hours=2)).strftime('%Y-%m-%d %H:%M:%S')
+    time_2_before = (now_time - datetime.timedelta(hours=2)
+                     ).strftime('%Y-%m-%d %H:%M:%S')
     try:
         sql_alert_count = "select count(*) from tab_send_email where type=%d and create_time > '%s'" % (
             mail_type, time_2_before)
@@ -79,3 +87,7 @@ def alert_mail_2(mail_subject, mail_text, mail_type):
         print('tools.py/tools-alert_mail_2 出現异常:', e)
         print(sql_alert_count)
         print(sql_send_mail)
+
+def get_buy_account_list():
+    return ms.ExecQueryALL(
+            "select api_key,seceret_key,passphrase,order_instrument_id,order_size from tab_accounts where status =2")

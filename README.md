@@ -32,6 +32,20 @@
 	status bit default(1),
 )
 ```
+- 记录帐号信息
+```sql
+
+CREATE TABLE tab_accounts(
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[keyvalue] [varchar](50) NOT NULL,
+	[api_key] [varchar](80) NOT NULL,
+	[seceret_key] [varchar](80) NOT NULL,
+	[passphrase] [varchar](80) NOT NULL,
+	[order_instrument_id] [varchar](20) NULL,
+	[order_size] [varchar](10) NULL,
+	[status] [tinyint] NULL
+)
+```
 
 - 记录几个账号的资金
 ```sql
@@ -43,7 +57,7 @@
     next_week float not null,
     quarter float not null,
     create_time [datetime] NOT NULL  DEFAULT (getdate()),
-    status bit default(1),
+    status tinyint default(1),
 )
 ```
 
