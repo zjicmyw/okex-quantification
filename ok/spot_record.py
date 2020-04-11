@@ -5,7 +5,7 @@ import os
 # 得到当前根目录
 o_path = os.getcwd()  # 返回当前工作目录
 sys.path.append(o_path)  # 添加自己指定的搜索路径
-from okex import spot_api as spot
+from okex_sdk_api.okex import spot_api as spot
 from utils import tools
 
 with open(o_path+"/json/accounts.json",'r') as load_f:

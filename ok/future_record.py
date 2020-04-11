@@ -5,7 +5,7 @@ import os
 o_path = os.getcwd()  # 返回当前工作目录
 sys.path.append(o_path)  # 添加自己指定的搜索路径
 from utils import tools
-from okex import futures_api as future
+from okex_sdk_api.okex import futures_api as future
 
 with open(o_path+"/json/accounts.json", 'r') as load_f:
     myokapi_info = json.load(load_f)['myokapi']
@@ -15,7 +15,6 @@ with open(o_path+"/json/accounts.json", 'r') as load_f:
 futureAPI = future.FutureAPI(api_key, seceret_key, passphrase, True)
 
 instrument = 'BTC-USD-200626'
-buy_instrument = 'ETH-USD-200626'
 # 记录okex期货下单 并发邮件
 
 def bd():
