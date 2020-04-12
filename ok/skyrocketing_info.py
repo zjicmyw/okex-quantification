@@ -4,7 +4,7 @@ import datetime
 import os
 o_path = os.getcwd()
 sys.path.append(o_path)
-import okex.spot_api as spot
+import okex_sdk_api.okex.spot_api as spot
 
 ms = sql.MSSQL()
 

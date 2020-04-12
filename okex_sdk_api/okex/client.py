@@ -45,7 +45,8 @@ class Client(object):
         logging.info("url:" + '"' + url + '"')
         # print("headers:", header)
         # logging.info("headers:" + str(header))
-        print("body:", body)
+        if body:
+            print("body:", body)
         logging.info("body:" + body)
 
         # send request

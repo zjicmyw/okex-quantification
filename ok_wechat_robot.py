@@ -1,6 +1,6 @@
-import okex.futures_api as future
-import okex.spot_api as spot
-import okex.swap_api as swap
+import okex_sdk_api.okex.futures_api as future
+import okex_sdk_api.okex.spot_api as spot
+import okex_sdk_api.okex.swap_api as swap
 from utils import ms_sql as sql
 
 ms = sql.MSSQL()

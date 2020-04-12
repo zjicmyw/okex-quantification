@@ -15,7 +15,6 @@ def time_print(title):
     print(title + '\033[0;34;40m\t' + now_time + ': \033[0m')
 
 
-
 '''
 报警邮件
 类型1：检测到和上次不同时，发送提醒邮件
@@ -49,8 +48,6 @@ def alert_mail_1(mail_subject, mail_text, mail_type):
         print(sql_get_last)
         print(sql_send_mail)
         return False
-
-
 
 
 '''
@@ -88,6 +85,12 @@ def alert_mail_2(mail_subject, mail_text, mail_type):
         print(sql_alert_count)
         print(sql_send_mail)
 
+
 def get_buy_account_list():
     return ms.ExecQueryALL(
-            "select api_key,seceret_key,passphrase,order_instrument_id,order_size from tab_accounts where status =2")
+        "select keyvalue,api_key,seceret_key,passphrase,order_instrument_id,order_size from tab_accounts where status =2")
+
+
+def get_account_bykeyvalue(keyvalue):
+    return ms.ExecQueryOne(
+        "select api_key,seceret_key,passphrase,order_instrument_id,order_size from tab_accounts where status =2 and keyvalue='{}'".format(keyvalue))

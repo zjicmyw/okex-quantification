@@ -1,10 +1,15 @@
-import okex.futures_api as future
-import okex.spot_api as spot
-import okex.swap_api as swap
+import sys
+import os
+o_path = os.getcwd()  # 返回当前工作目录
+sys.path.append(o_path)  # 添加自己指定的搜索路径
+import okex_sdk_api.okex.futures_api as future
+import okex_sdk_api.okex.spot_api as spot
+import okex_sdk_api.okex.swap_api as swap
 from utils import ms_sql as sql
 import schedule
 import time
 import datetime
+from utils import tools
 
 # 记录多个量化账户量化资金变化
 ms = sql.MSSQL()
@@ -13,10 +18,9 @@ ms = sql.MSSQL()
 
 def okex():
     try:
-        nowtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        print('\033[0;34;40m\t' + nowtime + ': \033[0m')
+        tools.time_print('多个量化账户量化资金检测')
         zh = ms.ExecQueryALL(
-                "  select keyvalue from tab_accounts where status =1")
+                "  select keyvalue from tab_accounts where status =2")
 
         if __name__ == '__main__':
             for i in zh:
@@ -105,9 +109,11 @@ def okex():
                         'equity'] + "','" + eth_amunt['equity'] + "','" + eos_amunt['equity'] + "','" + etc_amunt['equity'] + "')"
                     ms.ExecNonQuery(newsql)
 
-                    bfb = '%.2f%%' % ((float(all) - float(lastday)) / float(all) * 100)
+                   
                     if (lastday == '0'):
                         bfb = '0%'
+                    else:
+                         bfb = '%.2f%%' % ((float(all) - float(lastday)) / float(all) * 100)
 
                     res = keyvalue + ':\n当前币币账户USDT:' + spotresult['balance'] + '\n' + '当前合约账户btc:' + btc_amunt[
                         'equity'] + ';昨日'+lastday_btc+'\n' + '当前合约账户etc: ' + etc_amunt['equity']
@@ -115,11 +121,11 @@ def okex():
                         'equity'] +';昨日'+lastday_eos+ '\n账户总计USDT约: ' + all + ';昨日: ' + lastday + '\n' + '今日USDT本位盈利率' + bfb
 
                     print(res)
-                    time.sleep(10)
+                    time.sleep(3)
     except Exception as e:
         newsql = "insert into tab_send_email (address_to,mail_subject,mail_text) values('e7lian@qq.com','okex脚本出现问题'+'"+nowtime+"','"+str(e)+"')"
         ms.ExecNonQuery(newsql)
-        time.sleep(10)
+        time.sleep(2)
 
 okex()
 schedule.every(2).hours.do(okex)

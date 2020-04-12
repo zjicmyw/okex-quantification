@@ -26,16 +26,13 @@ def bd():
         # long_qty  short_qty 空仓数量
         # long_avg_cost  short_avg_cost 开仓平均价
         # long_settlement_price short_settlement_price  结算基准价
-
-        my_future = result['holding']  # 我的量化数据
-        if my_future[0]['long_qty'] == '0':
-            mail_text = my_future[0]['short_avg_cost'] + \
-                '平多套保。上次动作：'+my_future[0]['long_avg_cost']+'开多'
-            long_order=False
+        my_future = result['holding'][0]  # 我的量化数据
+        if my_future['long_qty'] == '0':
+            mail_text = '{}平多套保。上次动作：{}开多'.format(my_future['short_avg_cost'],my_future['long_avg_cost'])
+            long_order=False    
         else:
-            mail_text = my_future[0]['long_avg_cost'] + \
-                '平空开多。上次动作：'+my_future[0]['short_avg_cost']+'开空'
-            long_order=True
+            mail_text = '{}平空开多。上次动作：{}开空'.format(my_future['long_avg_cost'],my_future['short_avg_cost'])
+            long_order=True 
     except Exception as e:
         print("future_record.py -bd()出現异常:", e)
 
@@ -56,11 +53,7 @@ def take_order(long_order):
     try:
         account_list = tools.get_buy_account_list()
         for account in account_list:
-            buy_api_key = str(account[0])
-            buy_seceret_key = str(account[1])
-            buy_passphrase = str(account[2])
-            buy_instrument = str(account[3])
-            order_size = str(account[4])
+            keyvalue,buy_api_key,buy_seceret_key,buy_passphrase,buy_instrument,order_size = account#拆包
             buy_futureAPI = future.FutureAPI(buy_api_key, buy_seceret_key, buy_passphrase, True)
             if long_order:
                 print('平空')
@@ -74,7 +67,7 @@ def take_order(long_order):
                 print('开空')
                 time.sleep(2)
                 buy_result2 = buy_futureAPI.take_order(buy_instrument, '2','',size=order_size, order_type='4')
-            print(buy_result1,buy_result2,sep='\n')
+            print(keyvalue,buy_result1,buy_result2,sep='\n')
             time.sleep(5)
     except Exception as e:
         print("future_record.py -take_order()出現异常:", e)
