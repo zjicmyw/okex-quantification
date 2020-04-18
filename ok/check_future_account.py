@@ -25,7 +25,8 @@ def check(keyvalue):
             # long_qty  short_qty 空仓数量
             # long_avg_cost  short_avg_cost 开仓平均价
             futureAPI = future.FutureAPI(api_key, seceret_key, passphrase, True)
-            # buy_result = futureAPI.take_order(buy_instrument, '2','',size='2', order_type='4')
+            # buy_result = futureAPI.take_order(buy_instrument, '4','',size='2', order_type='4')#1:开多2:开空3:平多4:平空
+            # buy_result2 = futureAPI.take_order(buy_instrument, '1','',size='2', order_type='4')#1:开多2:开空3:平多4:平空
             # time.sleep(3)
             result = futureAPI.get_specific_position(buy_instrument)
             mail_text,text2='',''
@@ -38,9 +39,12 @@ def check(keyvalue):
                 if my_future['long_qty'] == '0':
                     mail_text = '{}账户目前在{}价格套保{}张'.format(
                         keyvalue, my_future['short_avg_cost'], my_future['short_qty'])
-                else:
+                elif my_future['short_qty']=='0':
                     mail_text = '{}账户目前在{}价格开多{}张'.format(
                         keyvalue, my_future['long_avg_cost'], my_future['long_qty'])
+                else:
+                    mail_text = '{}账户目前在{}价格开多{}张,在{}价格套保{}张'.format(
+                        keyvalue, my_future['long_avg_cost'], my_future['long_qty'], my_future['short_avg_cost'], my_future['short_qty'])
             # 判断账户类型是否全仓
             margin_mode='全仓' if my_future['margin_mode']=='crossed' else '逐仓' # 三元运算符
             text2='，账户类型：{}，杠杆倍数：{}。'.format(margin_mode,my_future['leverage'])

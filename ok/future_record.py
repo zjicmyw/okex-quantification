@@ -20,27 +20,36 @@ instrument = 'BTC-USD-200626'
 def bd():
     tools.time_print('期货检测')
     mail_text = ''  # 邮件内容
-    long_order=True
+    qty_type=0
     try:
         result = futureAPI.get_specific_position(instrument)
         # long_qty  short_qty 空仓数量
         # long_avg_cost  short_avg_cost 开仓平均价
         # long_settlement_price short_settlement_price  结算基准价
         my_future = result['holding'][0]  # 我的量化数据
-        if my_future['long_qty'] == '0':
-            mail_text = '{}平多套保。上次动作：{}开多'.format(my_future['short_avg_cost'],my_future['long_avg_cost'])
-            long_order=False    
+        print()
+        if my_future['long_qty'] == '0' and my_future['short_qty'] == '0':
+            qty_type=0 # 空仓
+            mail_text='空仓'
         else:
-            mail_text = '{}平空开多。上次动作：{}开空'.format(my_future['long_avg_cost'],my_future['short_avg_cost'])
-            long_order=True 
+            if my_future['long_qty'] == '0':
+                mail_text = '{}平多套保。上次动作：{}开多'.format(my_future['short_avg_cost'],my_future['long_avg_cost'])
+                qty_type=2  #开空
+            elif my_future['short_qty'] == '0':
+                mail_text = '{}平空开多。上次动作：{}开空'.format(my_future['long_avg_cost'],my_future['short_avg_cost'])
+                qty_type=1  #开多
+            else:
+                mail_text='多空双开'
+                qty_type=4 #多空双开
+        print(mail_text)
     except Exception as e:
         print("future_record.py -bd()出現异常:", e)
 
     if mail_text != '':
         mail_result = tools.alert_mail_1('期货开单', mail_text, 2)
         # 如果期货开单，则其他账户执行买入
-        if mail_result:
-            take_order(long_order)
+        if mail_result and qty_type!=4:
+            take_order(qty_type)
 
 
 '''
@@ -49,24 +58,30 @@ type
 order_type
 4：市价委托
 '''
-def take_order(long_order):
+def take_order(qty_type):
     try:
         account_list = tools.get_buy_account_list()
         for account in account_list:
             keyvalue,buy_api_key,buy_seceret_key,buy_passphrase,buy_instrument,order_size = account#拆包
             buy_futureAPI = future.FutureAPI(buy_api_key, buy_seceret_key, buy_passphrase, True)
-            if long_order:
-                print('平空')
-                buy_result1 = buy_futureAPI.take_order(buy_instrument, '4','',size=order_size, order_type='4')
-                print('开多')
-                time.sleep(2)
-                buy_result2 = buy_futureAPI.take_order(buy_instrument, '1','',size=order_size, order_type='4')
-            else:
-                print('平多')
-                buy_result1 = buy_futureAPI.take_order(buy_instrument, '3','',size=order_size, order_type='4')
-                print('开空')
-                time.sleep(2)
-                buy_result2 = buy_futureAPI.take_order(buy_instrument, '2','',size=order_size, order_type='4')
+            result = buy_futureAPI.get_specific_position(buy_instrument)
+            buy_future = result['holding'][0]  # 该账户量化数据
+            buy_result1,buy_result2='',''
+            if buy_future['long_qty'] == '0' and buy_future['short_qty']=='0':
+                # 如果持仓为空
+                if qty_type != 0:
+                    buy_result1 = buy_futureAPI.take_order(buy_instrument, str(qty_type),'',size=order_size, order_type='4')
+            elif (buy_future['long_qty'] == '0'and qty_type == 1) or (buy_future['short_qty']=='0'and qty_type == 2):# 目前开空
+                    buy_result1 = buy_futureAPI.take_order(buy_instrument, str(qty_type),'',size=order_size, order_type='4')
+                    time.sleep(2)
+                    buy_result2 = buy_futureAPI.take_order(buy_instrument, str(5-qty_type),'',size=order_size, order_type='4')  
+            elif (qty_type==0 and(buy_future['long_qty'] == '0' or buy_future['short_qty']=='0')):
+                if buy_future['long_qty'] == '0':
+                    buy_result2 = buy_futureAPI.take_order(buy_instrument, '4','',size=order_size, order_type='4')  
+                else:
+                    buy_result2 = buy_futureAPI.take_order(buy_instrument, '3','',size=order_size, order_type='4')  
+            else:  
+                pass
             print(keyvalue,buy_result1,buy_result2,sep='\n')
             time.sleep(5)
     except Exception as e:
