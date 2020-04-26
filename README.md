@@ -45,7 +45,7 @@
 	status bit default(1),
 )
 ```
-- 记录帐号信息
+- 记录帐号相关信息：API/期货选择/张数
 ```sql
 
 CREATE TABLE tab_accounts(
@@ -60,7 +60,7 @@ CREATE TABLE tab_accounts(
 )
 ```
 
-- 记录几个账号的资金
+- 记录几个账号的资金变化
 ```sql
   CREATE TABLE tab_okex_price_history(
     [id] [int] IDENTITY(1,1) NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE tab_accounts(
 )
 ```
 
-- 记录okb的买入卖出策略
+- 记录量化的买入卖出策略
 ```sql
  CREATE TABLE tab_bd_buy(
 	[id] [int] IDENTITY(1,1) NOT NULL,
