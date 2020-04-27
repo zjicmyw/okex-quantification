@@ -4,7 +4,7 @@ import sys
 import os
 o_path = os.getcwd()  # 返回当前工作目录
 sys.path.append(o_path)  # 添加自己指定的搜索路径
-from utils import tools
+from utils import tools,sms_send
 from okex_sdk_api.okex import futures_api as future
 
 with open(o_path+"/json/accounts.json", 'r') as load_f:
@@ -20,6 +20,7 @@ instrument = 'BTC-USD-200626'
 def bd():
     tools.time_print('期货检测')
     mail_text = ''  # 邮件内容
+    sms_text = '' # 短信内容
     qty_type=0
     try:
         result = futureAPI.get_specific_position(instrument)
@@ -31,22 +32,25 @@ def bd():
         if my_future['long_qty'] == '0' and my_future['short_qty'] == '0':
             qty_type=0 # 空仓
             mail_text='空仓'
+            sms_text='记得看太阳下山'
         else:
             if my_future['long_qty'] == '0':
                 mail_text = '{}平多套保。上次动作：{}开多'.format(my_future['short_avg_cost'],my_future['long_avg_cost'])
-                qty_type=2  #开空
+                qty_type=2  #
+                sms_text='今天乌云密布'
             elif my_future['short_qty'] == '0':
                 mail_text = '{}平空开多。上次动作：{}开空'.format(my_future['long_avg_cost'],my_future['short_avg_cost'])
                 qty_type=1  #开多
+                sms_text='今天万里晴空'
             else:
                 mail_text='多空双开'
                 qty_type=4 #多空双开
+                sms_text='记得看月亮'
         print(mail_text)
     except Exception as e:
         print("future_record.py -bd()出現异常:", e)
-
     if mail_text != '':
-        mail_result = tools.alert_mail_1('期货开单', mail_text, 2)
+        mail_result = tools.alert_mail_1('期货开单', mail_text, 2,sms_text)
         # 如果期货开单，则其他账户执行买入
         if mail_result and qty_type!=4:
             take_order(qty_type)
@@ -86,6 +90,8 @@ def take_order(qty_type):
             time.sleep(5)
     except Exception as e:
         print("future_record.py -take_order()出現异常:", e)
+        sms_text='请查看异常天气'
+        sms_result = sms_send.send(sms_text,True)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 # coding=utf-8
 import datetime
 from utils import ms_sql as sql
+from utils import sms_send
 
 ms = sql.MSSQL()
 address_to = 'e7lian@qq.com'
@@ -21,7 +22,7 @@ def time_print(title):
 '''
 
 
-def alert_mail_1(mail_subject, mail_text, mail_type):
+def alert_mail_1(mail_subject, mail_text, mail_type,sms_text):
     sql_send_mail = ''
     try:
         sql_get_last = "select top 1 mail_text from tab_send_email where type=%d order by create_time desc" % (
@@ -38,6 +39,8 @@ def alert_mail_1(mail_subject, mail_text, mail_type):
                 address_to, mail_subject, mail_text, mail_type)
         if sql_send_mail != '':
             print('发送邮件', mail_subject, mail_text)
+            sms_result = sms_send.send(sms_text)
+            print(sms_result)
             ms.ExecNonQuery(sql_send_mail)
             return True
         else:

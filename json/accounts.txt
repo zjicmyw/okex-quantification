@@ -1,0 +1,35 @@
+{
+  "database": {
+    "host": "",
+    "user": "",
+    "pwd": "",
+    "db": ""
+  },
+  "mail_info": {
+    "from": "",
+    "to": "",
+    "hostname": "smtp.qq.com",
+    "username": "",
+    "password": "",
+    "mail_subject": "",
+    "mail_text": "",
+    "mail_encoding": "utf-8"
+  },
+  "myokapi": {
+    "api_key": "",
+    "seceret_key": "",
+    "passphrase": ""
+  },
+  "sms_info":{
+    "sms_url":"",
+    "sms_data" : {
+      "f":"",
+      "uid":"",
+      "un":"",
+      "pw":"",
+      "p":"",
+      "i":""
+      },
+      "phone":""
+  }
+}

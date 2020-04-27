@@ -15,6 +15,11 @@ class Client(object):
         self.first = first
 
     def _request(self, method, request_path, params, cursor=False):
+
+        requests.adapters.DEFAULT_RETRIES = 5  # 增加重连次数
+        s = requests.session()
+        s.keep_alive = False # 设置连接活跃状态为False
+
         if method == c.GET:
             request_path = request_path + utils.parse_params_to_str(params)
         # url
@@ -85,9 +90,6 @@ class Client(object):
         return self._request(method, request_path, params, cursor)
 
     def _get_timestamp(self):
-        requests.adapters.DEFAULT_RETRIES = 5  # 增加重连次数
-        s = requests.session()
-        s.keep_alive = False
         url = c.API_URL + c.SERVER_TIMESTAMP_URL
         response = requests.get(url)
         if response.status_code == 200:
