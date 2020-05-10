@@ -8,7 +8,7 @@ with open("json/accounts.json", 'r') as load_f:
     phone=sms_info['phone']
 
 
-def send(content,is_error=False):
+def send(content,is_error):
     sms_data['i'] = content
     if is_error:
         sms_data['p'] = phone

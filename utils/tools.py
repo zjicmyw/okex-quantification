@@ -39,7 +39,7 @@ def alert_mail_1(mail_subject, mail_text, mail_type,sms_text):
                 address_to, mail_subject, mail_text, mail_type)
         if sql_send_mail != '':
             print('发送邮件', mail_subject, mail_text)
-            sms_result = sms_send.send(sms_text)
+            sms_result = sms_send.send(sms_text,False)
             print(sms_result)
             ms.ExecNonQuery(sql_send_mail)
             return True
