@@ -7,6 +7,7 @@ with open("json/accounts.json", 'r') as load_f:
     user = database_info['user']
     pwd = database_info['pwd']
     db = database_info['db']
+    port = database_info['port']
 
 
 class MSSQL:
@@ -15,11 +16,12 @@ class MSSQL:
         self.user = user
         self.pwd = pwd
         self.db = db
+        self.port = port
 
     def __GetConnect(self):
         if not self.db:
             raise (NameError, "没有设置数据库信息")
-        self.conn = pymssql.connect(host=self.host, user=self.user, password=self.pwd, database=self.db, charset="utf8")
+        self.conn = pymssql.connect(host=self.host,port=self.port, user=self.user, password=self.pwd, database=self.db, charset="utf8")
         cur = self.conn.cursor()
         if not cur:
             raise (NameError, "连接数据库失败")

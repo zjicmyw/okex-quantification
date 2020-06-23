@@ -14,7 +14,7 @@ with open(o_path+"/json/accounts.json", 'r') as load_f:
     passphrase = myokapi_info['passphrase']
 futureAPI = future.FutureAPI(api_key, seceret_key, passphrase, True)
 
-instrument = 'BTC-USD-200626'
+instrument = 'BTC-USD-200925'
 # 记录okex期货下单 并发邮件
 
 def bd():
@@ -53,7 +53,8 @@ def bd():
         mail_result = tools.alert_mail_1('期货开单', mail_text, 2,sms_text)
         # 如果期货开单，则其他账户执行买入
         if mail_result and qty_type!=4:
-            take_order(qty_type)
+            # take_order(qty_type)
+            pass
 
 
 '''
