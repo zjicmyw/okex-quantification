@@ -7,7 +7,7 @@ sys.path.append(o_path)  # 添加自己指定的搜索路径
 from utils import tools,sms_send
 from okex_sdk_api.okex import futures_api as future
 
-with open(o_path+"/json/accounts.json", 'r') as load_f:
+with open(o_path+"/json/accounts.json", 'r', encoding='UTF-8') as load_f:
     myokapi_info = json.load(load_f)['myokapi']
     api_key = myokapi_info['api_key']
     seceret_key = myokapi_info['seceret_key']

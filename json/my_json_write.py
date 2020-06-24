@@ -12,6 +12,6 @@ accounts = {
 #     json.dump(accounts, f)
 
 # load:把文件打开，并把字符串变换为数据类型
-with open("../json/accounts.json", 'r') as load_f:
+with open("../json/accounts.json", 'r', encoding='UTF-8') as load_f:
     load_dict = json.load(load_f)
     print(load_dict)
