@@ -7,7 +7,7 @@ sys.path.append(o_path)  # 添加自己指定的搜索路径
 from utils import tools,sms_send
 from okex_sdk_api.okex import futures_api as future
 
-with open(o_path+"/json/accounts.json", 'r') as load_f:
+with open(o_path+"/json/accounts.json", 'r', encoding='UTF-8') as load_f:
     myokapi_info = json.load(load_f)['myokapi']
     api_key = myokapi_info['api_key']
     seceret_key = myokapi_info['seceret_key']
@@ -53,7 +53,8 @@ def bd():
         mail_result = tools.alert_mail_1('期货开单', mail_text, 2,sms_text)
         # 如果期货开单，则其他账户执行买入
         if mail_result and qty_type!=4:
-            take_order(qty_type)
+            # take_order(qty_type)
+            pass
 
 
 '''
