@@ -9,7 +9,7 @@ try:
     pass
     job_defaults = {
         'coalesce': True,  # 积攒的任务只跑一次
-        'max_instances': 5,  # 支持5个实例并发
+        'max_instances': 10,  # 支持10个实例并发
         'misfire_grace_time': 600  # 600秒的任务超时容错
     }
     sched = BlockingScheduler(job_defaults=job_defaults)
@@ -21,8 +21,8 @@ try:
     def my_bd():
         bandao.bd()
 
-    sched.add_job(func=my_email, trigger='interval', seconds=90)
-    sched.add_job(func=my_bd, trigger='interval', minutes=4)
+    sched.add_job(func=my_email, trigger='interval', seconds=120)
+    sched.add_job(func=my_bd, trigger='interval', minutes=5)
     sched.start()
 except Exception as e:
     sms.send_wrong_sms()
