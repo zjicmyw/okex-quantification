@@ -1,9 +1,19 @@
 from ok import future_record as bandao
 from utils import ms_sql as sql, email_send as es, sms_send as sms
 from apscheduler.schedulers.blocking import BlockingScheduler
-
+from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
+import datetime
+import logging
 
 ms = sql.MSSQL()
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    filename='log1.txt',
+                    filemode='a')
+
+
 # 所有定时任务
 try:
     pass
@@ -21,11 +31,20 @@ try:
     def my_bd():
         bandao.bd()
 
-    sched.add_job(func=my_email, trigger='interval', seconds=120)
-    sched.add_job(func=my_bd, trigger='interval', minutes=5)
+    def my_listener(event):
+        if event.exception:
+            print('任务出错了。')
+        else:
+            pass
+
+    sched.add_job(func=my_email, trigger='interval', seconds=60)
+    sched.add_job(func=my_bd, trigger='interval', minutes=2)
+    sched.add_listener(my_listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
+    sched._logger = logging
     sched.start()
 except Exception as e:
     sms.send_wrong_sms()
+    nowtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     newsql = "insert into tab_send_email (address_to,mail_subject,mail_text) values('e7lian@qq.com','定时任务出现问题'+'" + \
         nowtime + "','" + str(e) + "')"
     print(str(e))
