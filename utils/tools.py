@@ -2,9 +2,25 @@
 import datetime
 from utils import ms_sql as sql
 from utils import sms_send
+import logging
 
+# 邮件
 ms = sql.MSSQL()
 address_to = 'e7lian@qq.com'
+
+# 日志
+logging.basicConfig(level=logging.WARNING,
+                    format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    filename='log1.txt',
+                    filemode='w')
+logger = logging.getLogger(__name__)
+
+def warning(data):
+    now_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    print(now_time + '--' + data)
+    logger.warning(now_time + '--' + data)
+
 
 '''
 时间打印
@@ -13,7 +29,7 @@ address_to = 'e7lian@qq.com'
 
 def time_print(title):
     now_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(title + '\033[0;34;40m\t' + now_time + ': \033[0m')
+    print(title + now_time)
 
 
 '''
@@ -22,7 +38,7 @@ def time_print(title):
 '''
 
 
-def alert_mail_1(mail_subject, mail_text, mail_type,sms_text):
+def alert_mail_1(mail_subject, mail_text, mail_type, sms_text):
     sql_send_mail = ''
     try:
         sql_get_last = "select top 1 mail_text from tab_send_email where type=%d order by create_time desc" % (
@@ -39,7 +55,7 @@ def alert_mail_1(mail_subject, mail_text, mail_type,sms_text):
                 address_to, mail_subject, mail_text, mail_type)
         if sql_send_mail != '':
             print('发送邮件', mail_subject, mail_text)
-            sms_result = sms_send.send(sms_text,False)
+            sms_result = sms_send.send(sms_text, False)
             print(sms_result)
             ms.ExecNonQuery(sql_send_mail)
             return True

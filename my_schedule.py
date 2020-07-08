@@ -1,5 +1,5 @@
 from ok import future_record as bandao
-from utils import ms_sql as sql, email_send as es, sms_send as sms
+from utils import ms_sql as sql, email_send as es, sms_send as sms,tools
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
 import datetime
@@ -7,16 +7,10 @@ import logging
 
 ms = sql.MSSQL()
 
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S',
-                    filename='log1.txt',
-                    filemode='a')
-
 
 # 所有定时任务
 try:
-    pass
+
     job_defaults = {
         'coalesce': True,  # 积攒的任务只跑一次
         'max_instances': 10,  # 支持10个实例并发

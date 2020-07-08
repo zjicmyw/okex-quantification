@@ -13,6 +13,7 @@ with open("json/accounts.json", 'r', encoding='UTF-8') as load_f:
     load_dict = json.load(load_f)
     mail_info = load_dict['mail_info']
 
+    
 def send():
     # 这里使用SMTP_SSL就是默认使用465端口
     smtp = SMTP_SSL(mail_info["hostname"])
@@ -22,7 +23,8 @@ def send():
     smtp.login(mail_info["username"], mail_info["password"])
 
     msg = MIMEText(mail_info["mail_text"], "plain", mail_info["mail_encoding"])
-    msg["Subject"] = Header(mail_info["mail_subject"], mail_info["mail_encoding"])
+    msg["Subject"] = Header(mail_info["mail_subject"],
+                            mail_info["mail_encoding"])
     msg["from"] = mail_info["from"]
     msg["to"] = mail_info["to"]
 
@@ -45,6 +47,6 @@ def mail():
         # mail_info['mail_text'], mail_info['mail_subject'], mail_info['address_to'])
         newsql = "update tab_send_email set status =0 where mail_text='" + mail_info[
             "mail_text"] + "' and mail_subject='" + mail_info["mail_subject"] + "' and address_to='" + mail_info[
-                     "to"] + "' and status = 1 "
+            "to"] + "' and status = 1 "
         print(newsql)
         ms.ExecNonQuery(newsql)
