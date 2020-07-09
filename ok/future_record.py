@@ -48,7 +48,7 @@ def bd():
                 mail_text = '多空双开'
                 qty_type = 4  # 多空双开
                 sms_text = '记得看月亮'
-        tools.warning(mail_text)
+        print(mail_text)
     except Exception as e:
         tools.warning("future_record.py -bd()出現异常:"+e)
     if mail_text != '':

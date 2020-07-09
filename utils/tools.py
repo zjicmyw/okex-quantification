@@ -58,7 +58,7 @@ def alert_mail_1(mail_subject, mail_text, mail_type, sms_text):
         if sql_send_mail != '':
             print('发送邮件', mail_subject, mail_text)
             sms_result = sms_send.send(sms_text, False)
-            print(sms_result)
+            warning(sms_result)
             ms.ExecNonQuery(sql_send_mail)
             return True
         else:
@@ -66,8 +66,8 @@ def alert_mail_1(mail_subject, mail_text, mail_type, sms_text):
 
     except Exception as e:
         print('tools.py/tools-alert_mail_1 出現异常:', e)
-        print(sql_get_last)
-        print(sql_send_mail)
+        warning(sql_get_last)
+        warning(sql_send_mail)
         return False
 
 
@@ -103,8 +103,8 @@ def alert_mail_2(mail_subject, mail_text, mail_type):
             pass
     except Exception as e:
         print('tools.py/tools-alert_mail_2 出現异常:', e)
-        print(sql_alert_count)
-        print(sql_send_mail)
+        warning(sql_alert_count)
+        warning(sql_send_mail)
 
 
 def get_buy_account_list():
