@@ -8,9 +8,15 @@ import base64
 import zlib
 import logging
 import datetime
+import sys
+import os
+o_path = os.getcwd()  # 返回当前工作目录
+sys.path.append(o_path)  # 添加自己指定的搜索路径
+
 
 log_format = '%(asctime)s - %(levelname)s - %(message)s'
-logging.basicConfig(filename='mylog-ws.json', filemode='w', format=log_format, level=logging.INFO)
+logging.basicConfig(filename='mylog-ws.json', filemode='w',
+                    format=log_format, level=logging.DEBUG)
 
 
 def get_timestamp():
@@ -38,18 +44,20 @@ def server_timestamp():
 def login_params(timestamp, api_key, passphrase, secret_key):
     message = timestamp + 'GET' + '/users/self/verify'
 
-    mac = hmac.new(bytes(secret_key, encoding='utf8'), bytes(message, encoding='utf-8'), digestmod='sha256')
+    mac = hmac.new(bytes(secret_key, encoding='utf8'), bytes(
+        message, encoding='utf-8'), digestmod='sha256')
     d = mac.digest()
     sign = base64.b64encode(d)
 
-    login_param = {"op": "login", "args": [api_key, passphrase, timestamp, sign.decode("utf-8")]}
+    login_param = {"op": "login", "args": [
+        api_key, passphrase, timestamp, sign.decode("utf-8")]}
     login_str = json.dumps(login_param)
     return login_str
 
 
 def inflate(data):
     decompress = zlib.decompressobj(
-            -zlib.MAX_WBITS  # see above
+        -zlib.MAX_WBITS  # see above
     )
     inflated = decompress.decompress(data)
     inflated += decompress.flush()
@@ -92,7 +100,8 @@ def update_bids(res, bids_p, timestamp):
                 bids_p.append(i)
     else:
         bids_p.sort(key=lambda price: sort_num(price[0]), reverse=True)
-        print(timestamp + '合并后的bids为：' + str(bids_p) + '，档数为：' + str(len(bids_p)))
+        print(timestamp + '合并后的bids为：' +
+              str(bids_p) + '，档数为：' + str(len(bids_p)))
         logging.info('combine bids:' + str(bids_p))
     return bids_p
 
@@ -119,7 +128,8 @@ def update_asks(res, asks_p, timestamp):
                 asks_p.append(i)
     else:
         asks_p.sort(key=lambda price: sort_num(price[0]))
-        print(timestamp + '合并后的asks为：' + str(asks_p) + '，档数为：' + str(len(asks_p)))
+        print(timestamp + '合并后的asks为：' +
+              str(asks_p) + '，档数为：' + str(len(asks_p)))
         logging.info('combine asks:' + str(asks_p))
     return asks_p
 
@@ -142,7 +152,7 @@ def check(bids, asks):
         bids_l.append(bids[count_bid-1])
         count_bid += 1
     for j in bids_l:
-        str_bid = ':'.join(j[0 : 2])
+        str_bid = ':'.join(j[0: 2])
         bid_l.append(str_bid)
     # 获取ask档str
     asks_l = []
@@ -154,7 +164,7 @@ def check(bids, asks):
         asks_l.append(asks[count_ask-1])
         count_ask += 1
     for k in asks_l:
-        str_ask = ':'.join(k[0 : 2])
+        str_ask = ':'.join(k[0: 2])
         ask_l.append(str_ask)
     # 拼接str
     num = ''
@@ -191,14 +201,16 @@ def change(num_old):
 
 # subscribe channels un_need login
 async def subscribe_without_login(url, channels):
+    print('1')
     l = []
-    while True:
-        try:
+    # while True:
+    try:
             async with websockets.connect(url) as ws:
                 sub_param = {"op": "subscribe", "args": channels}
                 sub_str = json.dumps(sub_param)
                 await ws.send(sub_str)
                 logging.info(f"send: {sub_str}")
+                print('2')
 
                 while True:
                     try:
@@ -216,6 +228,7 @@ async def subscribe_without_login(url, channels):
                         except Exception as e:
                             timestamp = get_timestamp()
                             print(timestamp + "连接关闭，正在重连……")
+                            print('3')
                             logging.error(e)
                             break
 
@@ -235,7 +248,8 @@ async def subscribe_without_login(url, channels):
                                     if res['data'][0]['instrument_id'] == m['instrument_id']:
                                         l.remove(m)
                                 # 获取首次全量深度数据
-                                bids_p, asks_p, instrument_id = partial(res, timestamp)
+                                bids_p, asks_p, instrument_id = partial(
+                                    res, timestamp)
                                 d = {}
                                 d['instrument_id'] = instrument_id
                                 d['bids_p'] = bids_p
@@ -244,11 +258,14 @@ async def subscribe_without_login(url, channels):
 
                                 # 校验checksum
                                 checksum = res['data'][0]['checksum']
-                                print(timestamp + '推送数据的checksum为：' + str(checksum))
+                                print(timestamp + '推送数据的checksum为：' +
+                                      str(checksum))
                                 logging.info('get checksum:' + str(checksum))
                                 check_num = check(bids_p, asks_p)
-                                print(timestamp + '校验后的checksum为：' + str(check_num))
-                                logging.info('calculate checksum:' + str(check_num))
+                                print(timestamp + '校验后的checksum为：' +
+                                      str(check_num))
+                                logging.info(
+                                    'calculate checksum:' + str(check_num))
                                 if check_num == checksum:
                                     print("校验结果为：True")
                                     logging.info('checksum: True')
@@ -260,7 +277,8 @@ async def subscribe_without_login(url, channels):
                                     await unsubscribe_without_login(url, channels, timestamp)
                                     # 发送订阅
                                     async with websockets.connect(url) as ws:
-                                        sub_param = {"op": "subscribe", "args": channels}
+                                        sub_param = {
+                                            "op": "subscribe", "args": channels}
                                         sub_str = json.dumps(sub_param)
                                         await ws.send(sub_str)
                                         timestamp = get_timestamp()
@@ -274,16 +292,22 @@ async def subscribe_without_login(url, channels):
                                         bids_p = j['bids_p']
                                         asks_p = j['asks_p']
                                         # 获取合并后数据
-                                        bids_p = update_bids(res, bids_p, timestamp)
-                                        asks_p = update_asks(res, asks_p, timestamp)
+                                        bids_p = update_bids(
+                                            res, bids_p, timestamp)
+                                        asks_p = update_asks(
+                                            res, asks_p, timestamp)
 
                                         # 校验checksum
                                         checksum = res['data'][0]['checksum']
-                                        print(timestamp + '推送数据的checksum为：' + str(checksum))
-                                        logging.info('get checksum:' + str(checksum))
+                                        print(
+                                            timestamp + '推送数据的checksum为：' + str(checksum))
+                                        logging.info(
+                                            'get checksum:' + str(checksum))
                                         check_num = check(bids_p, asks_p)
-                                        print(timestamp + '校验后的checksum为：' + str(check_num))
-                                        logging.info('calculate checksum:' + str(check_num))
+                                        print(
+                                            timestamp + '校验后的checksum为：' + str(check_num))
+                                        logging.info(
+                                            'calculate checksum:' + str(check_num))
                                         if check_num == checksum:
                                             print("校验结果为：True")
                                             logging.info('checksum: True')
@@ -295,17 +319,21 @@ async def subscribe_without_login(url, channels):
                                             await unsubscribe_without_login(url, channels, timestamp)
                                             # 发送订阅
                                             async with websockets.connect(url) as ws:
-                                                sub_param = {"op": "subscribe", "args": channels}
+                                                sub_param = {
+                                                    "op": "subscribe", "args": channels}
                                                 sub_str = json.dumps(sub_param)
                                                 await ws.send(sub_str)
                                                 timestamp = get_timestamp()
-                                                print(timestamp + f"send: {sub_str}")
-                                                logging.info(f"send: {sub_str}")
-        except Exception as e:
+                                                print(timestamp +
+                                                      f"send: {sub_str}")
+                                                logging.info(
+                                                    f"send: {sub_str}")
+    except Exception as e:
             timestamp = get_timestamp()
             print(timestamp + "连接断开，正在重连……")
+            print('4',e)
             logging.error(e)
-            continue
+            # continue
 
 
 # subscribe channels need login
@@ -315,7 +343,8 @@ async def subscribe(url, api_key, passphrase, secret_key, channels):
             async with websockets.connect(url) as ws:
                 # login
                 timestamp = str(server_timestamp())
-                login_str = login_params(timestamp, api_key, passphrase, secret_key)
+                login_str = login_params(
+                    timestamp, api_key, passphrase, secret_key)
                 await ws.send(login_str)
                 # time = get_timestamp()
                 # print(time + f"send: {login_str}")
@@ -370,7 +399,8 @@ async def unsubscribe(url, api_key, passphrase, secret_key, channels):
     async with websockets.connect(url) as ws:
         # login
         timestamp = str(server_timestamp())
-        login_str = login_params(str(timestamp), api_key, passphrase, secret_key)
+        login_str = login_params(
+            str(timestamp), api_key, passphrase, secret_key)
         await ws.send(login_str)
         # time = get_timestamp()
         # print(time + f"send: {login_str}")
@@ -413,11 +443,14 @@ async def unsubscribe_without_login(url, channels, timestamp):
         logging.info(f"recv: {res}")
 
 
-api_key = ""
-secret_key = ""
-passphrase = ""
+with open(o_path+"/json/accounts.json", 'r', encoding='UTF-8') as load_f:
+    myokapi_info = json.load(load_f)['myokapi']
+    api_key = myokapi_info['api_key']
+    secret_key = myokapi_info['seceret_key']
+    passphrase = myokapi_info['passphrase']
 
-url = 'wss://real.okex.com:8443/ws/v3'
+
+url = 'wss://real.okex.me:8443/ws/v3'
 
 # 现货
 # 用户币币账户频道
@@ -526,16 +559,16 @@ url = 'wss://real.okex.com:8443/ws/v3'
 
 # ws公共指数频道
 # 指数行情
-# channels = ["index/ticker:BTC-USD"]
+channels = ["index/ticker:BTC-USD"]
 # 指数K线
 # channels = ["index/candle60s:BTC-USD"]
 
 loop = asyncio.get_event_loop()
 
-#公共数据 不需要登录（行情，K线，交易数据，资金费率，限价范围，深度数据，标记价格）
+# 公共数据 不需要登录（行情，K线，交易数据，资金费率，限价范围，深度数据，标记价格）
 loop.run_until_complete(subscribe_without_login(url, channels))
 
-#个人数据 需要登录（用户账户，用户交易，用户持仓）
+# 个人数据 需要登录（用户账户，用户交易，用户持仓）
 # loop.run_until_complete(subscribe(url, api_key, passphrase, secret_key, channels))
 
 loop.close()

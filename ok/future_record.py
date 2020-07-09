@@ -19,7 +19,6 @@ instrument = 'BTC-USD-200925'
 
 
 def bd():
-    tools.time_print('期货检测')
     mail_text = ''  # 邮件内容
     sms_text = ''  # 短信内容
     qty_type = 0

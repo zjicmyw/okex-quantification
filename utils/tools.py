@@ -16,10 +16,11 @@ logging.basicConfig(level=logging.WARNING,
                     filemode='w')
 logger = logging.getLogger(__name__)
 
-def warning(data):
+
+def warning(data, e=''):
     now_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(now_time + '--' + data)
-    logger.warning(now_time + '--' + data)
+    print(now_time + '--' + data + e)
+    logger.warning(now_time + '--' + data + e)
 
 
 '''

@@ -5,3 +5,4 @@ __pycache__/
 accounts.json
 .vscode
 log1.txt
+mylog-ws.json

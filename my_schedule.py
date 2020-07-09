@@ -1,11 +1,13 @@
 from ok import future_record as bandao
-from utils import ms_sql as sql, email_send as es, sms_send as sms,tools
+from utils import ms_sql as sql, email_send as es, sms_send as sms, tools
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
 import datetime
 import logging
 
 ms = sql.MSSQL()
+logging.basicConfig()
+logging.getLogger('apscheduler').setLevel(logging.WARNING)
 
 
 # 所有定时任务
@@ -19,9 +21,11 @@ try:
     sched = BlockingScheduler(job_defaults=job_defaults)
     # 有date, interval, cron可供选择，其实看字面意思也可以知道，date表示具体的一次性任务，interval表示循环任务，cron表示定时任务
 
+    # 发送邮件
     def my_email():
         es.mail()
 
+    # 检测下单
     def my_bd():
         bandao.bd()
 
@@ -31,8 +35,13 @@ try:
         else:
             pass
 
+    # 正常发送短信
+    def semd_sms():
+        sms.send_normal_sms()
+
     sched.add_job(func=my_email, trigger='interval', seconds=60)
     sched.add_job(func=my_bd, trigger='interval', minutes=2)
+    sched.add_job(func=semd_sms, trigger='interval', hour=15, minute=00)
     sched.add_listener(my_listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
     sched._logger = logging
     sched.start()

@@ -22,3 +22,8 @@ def send_wrong_sms():
     r = requests.post("https://api.mysubmail.com/message/send",
                       data=sms_wrong_config)
     print(r)
+
+def send_normal_sms():
+    r = requests.post("https://api.mysubmail.com/message/send",
+                      data=sms_normal_config)
+    print(r)
