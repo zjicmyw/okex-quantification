@@ -51,7 +51,6 @@ def bd():
         tools.warning(mail_text)
     except Exception as e:
         tools.warning("future_record.py -bd()出現异常:", e)
-        sms_send.send_wrong_sms()
     if mail_text != '':
         mail_result = tools.alert_mail_1('期货开单', mail_text, 2, sms_text)
         # 如果期货开单，则其他账户执行买入
