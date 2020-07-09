@@ -4,6 +4,7 @@ import json
 with open("json/accounts.json", 'r', encoding='UTF-8') as load_f:
     content = json.load(load_f)
     sms_wrong_config = content['sms_wrong_config']
+    sms_normal_config = content['sms_normal_config']
     sms_info = content['sms_info']
     sms_url = sms_info['sms_url']
     sms_data = sms_info['sms_data']

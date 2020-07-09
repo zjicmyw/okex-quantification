@@ -32,6 +32,7 @@ try:
     def my_listener(event):
         if event.exception:
             print('任务出错了。')
+            sms.send_wrong_sms()
         else:
             pass
 
@@ -41,7 +42,7 @@ try:
 
     sched.add_job(func=my_email, trigger='interval', seconds=60)
     sched.add_job(func=my_bd, trigger='interval', minutes=2)
-    sched.add_job(func=semd_sms, trigger='interval', hour=15, minute=00)
+    sched.add_job(func=semd_sms, trigger='cron', hour=15, minute=00)
     sched.add_listener(my_listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
     sched._logger = logging
     sched.start()
