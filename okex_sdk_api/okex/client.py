@@ -46,7 +46,7 @@ class Client(object):
             logging.info("url:" + url)
             self.first = False
 
-        print("url:", url)
+        # print("url:", url)
         logging.info("url:" + '"' + url + '"')
         # print("headers:", header)
         # logging.info("headers:" + str(header))

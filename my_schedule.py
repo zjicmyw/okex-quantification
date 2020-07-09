@@ -41,5 +41,5 @@ except Exception as e:
     nowtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     newsql = "insert into tab_send_email (address_to,mail_subject,mail_text) values('e7lian@qq.com','定时任务出现问题'+'" + \
         nowtime + "','" + str(e) + "')"
-    print(str(e))
+    tools.warning(str(e))
     ms.ExecNonQuery(newsql)

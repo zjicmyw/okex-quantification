@@ -29,7 +29,7 @@ def warning(data):
 
 def time_print(title):
     now_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(title + now_time)
+    print(now_time + '--' + title)
 
 
 '''
@@ -49,7 +49,8 @@ def alert_mail_1(mail_subject, mail_text, mail_type, sms_text):
                 sql_send_mail = "insert into tab_send_email (address_to,mail_subject,mail_text,type) values('%s','%s','%s',%d)" % (
                     address_to, mail_subject, mail_text, mail_type)
             else:
-                print('相同,不发送邮件')
+                pass
+                # print('相同,不发送邮件')
         else:
             sql_send_mail = "insert into tab_send_email (address_to,mail_subject,mail_text,type) values('%s','%s','%s',%d)" % (
                 address_to, mail_subject, mail_text, mail_type)
