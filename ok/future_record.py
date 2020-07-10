@@ -48,9 +48,9 @@ def bd():
                 mail_text = '多空双开'
                 qty_type = 4  # 多空双开
                 sms_text = '记得看月亮'
-        tools.warning(mail_text)
+        print(mail_text)
     except Exception as e:
-        tools.warning("future_record.py -bd()出現异常:", e)
+        tools.warning("future_record.py -bd()出現异常:"+str(e))
     if mail_text != '':
         mail_result = tools.alert_mail_1('期货开单', mail_text, 2, sms_text)
         # 如果期货开单，则其他账户执行买入
@@ -100,7 +100,7 @@ def take_order(qty_type):
             tools.warning(keyvalue, buy_result1, buy_result2, sep='\n')
             time.sleep(5)
     except Exception as e:
-        tools.warning("future_record.py -take_order()出現异常:", e)
+        tools.warning("future_record.py -take_order()出現异常:"+str(e))
         sms_text = '请查看异常天气'
         sms_result = sms_send.send(sms_text, True)
 

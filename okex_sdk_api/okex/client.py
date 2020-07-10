@@ -16,7 +16,7 @@ class Client(object):
 
     def _request(self, method, request_path, params, cursor=False):
 
-        requests.adapters.DEFAULT_RETRIES = 5  # 增加重连次数
+        requests.adapters.DEFAULT_RETRIES = 8  # 增加重连次数
         s = requests.session()
         s.keep_alive = False # 设置连接活跃状态为False
 

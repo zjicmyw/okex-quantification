@@ -32,7 +32,7 @@ try:
     def my_listener(event):
         if event.exception:
             print('任务出错了。')
-            sms.send_wrong_sms()
+            # sms.send_wrong_sms()
         else:
             pass
 
