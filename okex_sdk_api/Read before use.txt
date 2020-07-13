@@ -1,12 +1,12 @@
 
 1. 调用我们的接口均需要科学上网：
-rest可尝试Ping www.okex.me
+rest可尝试Ping www.okex.com
 ws可尝试Ping real.okex.com
 检查是否可ping通，需客户端排除解决网络问题
 服务器建议 香港阿里云
 
-2. v3 api文档地址： https://www.okex.me/docs/zh/
-申请v3API网址： https://www.okex.me/account/users/myApi
+2. v3 api文档地址： https://www.okex.com/docs/zh/
+申请v3API网址： https://www.okex.com/account/users/myApi
 
 3. 关于K线数据的获取：
 币币：

@@ -28,7 +28,6 @@ def bd():
         # long_avg_cost  short_avg_cost 开仓平均价
         # long_settlement_price short_settlement_price  结算基准价
         my_future = result['holding'][0]  # 我的量化数据
-        print()
         if my_future['long_qty'] == '0' and my_future['short_qty'] == '0':
             qty_type = 0  # 空仓
             mail_text = '空仓'

@@ -23,6 +23,6 @@
 附言：
 1. 如果对API不太了解，建议可以先去参考OKEx官方api文档
 
-    https://www.okex.me/docs/zh/
+    https://www.okex.com/docs/zh/
 
 2. 关于ws的相关问题请参阅同级目录下 WS-May be could help you.txt文件

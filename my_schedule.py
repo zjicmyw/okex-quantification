@@ -8,7 +8,7 @@ import time
 
 ms = sql.MSSQL()
 logging.basicConfig()
-logging.getLogger('apscheduler').setLevel(logging.WARNING)
+logging.getLogger('apscheduler').setLevel(logging.INFO)
 
 
 # 所有定时任务
@@ -45,7 +45,7 @@ try:
         sms.send_normal_sms()
 
     sched.add_job(func=my_email, trigger='interval', seconds=60)
-    sched.add_job(func=my_bd, trigger='interval', minutes=2)
+    sched.add_job(func=my_bd, trigger='interval', seconds=180)
     # sched.add_job(func=semd_sms, trigger='cron', hour=15, minute=00)
     sched.add_listener(my_listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
     sched._logger = logging

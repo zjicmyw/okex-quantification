@@ -50,7 +50,7 @@ def check(keyvalue):
             text2='，账户类型：{}，杠杆倍数：{}。'.format(margin_mode,my_future['leverage'])
             print(mail_text+text2)
             # 
-            # 无法设置，api有bug  https://www.okex.me/docs/zh/#futures-leverage
+            # 无法设置，api有bug  https://www.okex.com/docs/zh/#futures-leverage
             # "error_message":"instrument_id cannot be blank"
             # result12 = futureAPI.set_leverage('BTC-USD','10')
             # result11 = futureAPI.get_leverage('BTC-USD')

@@ -26,7 +26,7 @@ def get_timestamp():
 
 
 def get_server_time():
-    url = "https://www.okex.me/api/general/v3/time"
+    url = "https://www.okex.com/api/general/v3/time"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()['iso']
@@ -450,7 +450,7 @@ with open(o_path+"/json/accounts.json", 'r', encoding='UTF-8') as load_f:
     passphrase = myokapi_info['passphrase']
 
 
-url = 'wss://real.okex.me:8443/ws/v3'
+url = 'wss://real.okex.com:8443/ws/v3'
 
 # 现货
 # 用户币币账户频道
