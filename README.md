@@ -72,7 +72,37 @@ CREATE TABLE tab_accounts(
     create_time [datetime] NOT NULL  DEFAULT (getdate()),
     status tinyint default(1),
 )
+CREATE TABLE tab_okex_account_swapbytoken(
+    [id] [int] IDENTITY(1,1) NOT NULL,
+    keyvalue varchar(50) not null,
+    eos_equity float not null,
+    bsv_equity float not null,
+	tab_price_id int not null,
+	eos_value float not null,
+	bsv_value float not null,
+	total_value float null,
+    create_time [datetime] NOT NULL  DEFAULT (getdate()),
+    status tinyint default(1),
+)
+
+CREATE TABLE tab_okex_account_swapbydoller(
+    [id] [int] IDENTITY(1,1) NOT NULL,
+    keyvalue varchar(50) not null,
+    eos_usd_equity float not null,
+    eth_usd_equity float not null,
+	total_value float null,
+    create_time [datetime] NOT NULL  DEFAULT (getdate()),
+    status tinyint default(1),
+)
+
+CREATE TABLE tab_price(
+    [id] [int] IDENTITY(1,1) NOT NULL,
+    eos_price float not null,
+    bsv_price float not null,
+    create_time [datetime] NOT NULL  DEFAULT (getdate()),
+)
 ```
+
 
 - 记录量化的买入卖出策略
 ```sql
