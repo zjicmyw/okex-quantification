@@ -1,6 +1,5 @@
 import datetime
 import time
-import schedule
 import sys
 import os
 o_path = os.getcwd()  # 返回当前工作目录
@@ -13,8 +12,6 @@ import okex_sdk_api.okex.futures_api as future
 
 # 记录多个量化账户量化资金变化
 ms = sql.MSSQL()
-
-# keyvalue=input("请输入查询：")
 
 
 def okex():
@@ -80,11 +77,8 @@ def okex():
         print(e)
         time.sleep(2)
 
-okex()
-schedule.every(2).hours.do(okex)
+if __name__ == "__main__":
+    okex()
 
 
-while True:
-   schedule.run_pending()
-    # 每隔60秒检测一次
-   time.sleep(60*10)
+
