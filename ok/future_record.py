@@ -30,16 +30,17 @@ def bd():
         my_future = result['holding'][0]  # 我的量化数据
         if my_future['long_qty'] == '0' and my_future['short_qty'] == '0':
             qty_type = 0  # 空仓
-            mail_text = '空仓'
+            mail_text = '空仓，最近动作：{},{}'.format(
+                my_future['short_avg_cost'], my_future['long_avg_cost'])
             sms_text = '记得看太阳下山'
         else:
             if my_future['long_qty'] == '0':
-                mail_text = '{}平多套保。上次动作：{}开多'.format(
+                mail_text = '{}开空。上次动作：{}开多'.format(
                     my_future['short_avg_cost'], my_future['long_avg_cost'])
                 qty_type = 2  #
                 sms_text = '今天乌云密布'
             elif my_future['short_qty'] == '0':
-                mail_text = '{}平空开多。上次动作：{}开空'.format(
+                mail_text = '{}开多。上次动作：{}开空'.format(
                     my_future['long_avg_cost'], my_future['short_avg_cost'])
                 qty_type = 1  # 开多
                 sms_text = '今天万里晴空'
