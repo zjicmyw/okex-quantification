@@ -14,7 +14,7 @@ with open(o_path+"/json/accounts.json", 'r', encoding='UTF-8') as load_f:
     passphrase = myokapi_info['passphrase']
 futureAPI = future.FutureAPI(api_key, seceret_key, passphrase, True)
 
-instrument = 'BTC-USD-200925'
+instrument = 'BTC-USD-201225'
 # 记录okex期货下单 并发邮件
 
 
