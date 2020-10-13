@@ -2,7 +2,10 @@ import requests
 import json
 from . import consts as c, utils, exceptions
 import logging
-
+import socket
+import socks
+socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 10808)
+socket.socket = socks.socksocket
 
 class Client(object):
 
