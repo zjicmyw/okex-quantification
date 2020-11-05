@@ -35,8 +35,8 @@ try:
             print('任务出错了。')
             # sms.send_wrong_sms()
             sched.shutdown()
-            time.sleep(5)
-            sched.start()
+            # time.sleep(5)
+            # sched.start()
         else:
             pass
 
@@ -44,7 +44,7 @@ try:
     def semd_sms():
         sms.send_normal_sms()
 
-    sched.add_job(func=my_email, trigger='interval', seconds=60)
+    # sched.add_job(func=my_email, trigger='interval', seconds=60)
     sched.add_job(func=my_bd, trigger='interval', seconds=150)
     # sched.add_job(func=semd_sms, trigger='cron', hour=15, minute=00)
     sched.add_listener(my_listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
