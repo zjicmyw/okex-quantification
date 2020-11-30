@@ -108,6 +108,18 @@ CREATE TABLE tab_price(
 )
 ```
 
+- 记录帐号资金2.0 - 单账户币本位余额记录
+```sql
+CREATE TABLE tab_swap_one_token(
+    [id] [int] IDENTITY(1,1) NOT NULL,
+    keyvalue varchar(50) not null,
+    instrument_id varchar(20) not null,
+	equity float not null,
+    create_time [datetime] NOT NULL  DEFAULT (getdate()),
+    status tinyint default(1),
+)
+```
+
 
 - 记录量化的买入卖出策略
 ```sql
