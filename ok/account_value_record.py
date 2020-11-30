@@ -78,7 +78,7 @@ def okex():
                     sql1 = "insert into tab_swap_one_token (keyvalue,instrument_id,equity,create_time) values('%s','%s','%s','%s')" % (
                         keyvalue, instrument_id, eth_usd_equity, create_time)
                     ms.ExecNonQuery(sql1)
-                    print(sql1)
+                    # print(sql1)
 
                 time.sleep(3)
     except Exception as e:
