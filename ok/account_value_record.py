@@ -71,7 +71,7 @@ def okex():
                         keyvalue, eth_usd_equity, eos_usd_equity, total_usd_value, create_time)
                     ms.ExecNonQuery(sql2)
                     # print(sql2)
-                elif instrument_id == 'ETH-USD-SWAP':
+                elif instrument_id != 'None':
                     result_get_accounts = swapAPI.get_coin_account(instrument_id)
                     eth_usd_equity = result_get_accounts['info']['equity']
                     # print(result_get_accounts)
@@ -79,7 +79,7 @@ def okex():
                         keyvalue, instrument_id, eth_usd_equity, create_time)
                     ms.ExecNonQuery(sql1)
                     # print(sql1)
-
+               
                 time.sleep(3)
     except Exception as e:
         print(e)
