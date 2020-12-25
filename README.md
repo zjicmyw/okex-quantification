@@ -15,7 +15,8 @@
 - 各类数据邮件提醒
 
 ## 使用说明
-- 生成requirements.txt文件：pip freeze > requirements.txt
+- 安装pipreqs:pip install pipreqs
+- 生成requirements.txt文件：pipreqs . --encoding=utf8 --force
 - 安装requirements.txt依赖：pip install -r requirements.txt
 - 出现 pymssql==2.1.4 报错的话，使用 python 3.7 https://www.lfd.uci.edu/~gohlke/pythonlibs/#pymssql
 
