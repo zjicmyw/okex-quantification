@@ -28,3 +28,7 @@ def send_normal_sms():
     r = requests.post("https://api.mysubmail.com/message/send",
                       data=sms_normal_config)
     print(r)
+
+def send_wecaht(title,desp):
+    r = requests.get("https://sc.ftqq.com/SCU153099T7981d7e4bd60158a48b6f9f9f37e3da9600958eaaef11.send?text={}&desp={}".format('趋势提醒：'+title,desp))
+    print(r)

@@ -56,6 +56,7 @@ def alert_mail_1(mail_subject, mail_text, mail_type, sms_text):
             sql_send_mail = "insert into tab_send_email (address_to,mail_subject,mail_text,type) values('%s','%s','%s',%d)" % (
                 address_to, mail_subject, mail_text, mail_type)
         if sql_send_mail != '':
+            sms_send.send_wecaht(sms_text,mail_text)
             print('发送邮件', mail_subject, mail_text)
             sms_result = sms_send.send(sms_text, False)
             warning(sms_result)
