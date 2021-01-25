@@ -5,6 +5,7 @@ import datetime
 from dateutil.parser import parse
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
+from utils import sms_send as sms
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
@@ -51,29 +52,7 @@ def get_interview(t1):
     result = (date2 - date1).total_seconds()
     print(result)
     if result < 300:
-        send()
-
-
-
-sms = {
-    "sms_url": "http://61.191.26.189:8888/smser.ashx",
-    "sms_data": {
-        "f": "2",
-        "uid": "70944",
-        "un": "dkgzs",
-        "pw": "ecff204e937d945e",
-        "p": "13777842815",
-        "i": ""
-    },
-    "phone": "13777842815"
-}
-
-
-def send():
-    sms_data = sms['sms_data']
-    sms_data['i'] = "请查看异常天气"
-    res = requests.get(url=sms['sms_url'], params=sms_data)
-    return(res.text)
+        sms.send_wecaht('有人质押了','1')
 
 
 # 所有定时任务
@@ -100,4 +79,4 @@ try:
 
     sched.start()
 except Exception as e:
-    send()
+    pass
