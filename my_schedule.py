@@ -28,7 +28,8 @@ try:
 
     # 检测下单
     def my_bd():
-        bandao.bd()
+        for index in [0,1]:
+            bandao.bd(index)
 
     def my_listener(event):
         if event.exception:
