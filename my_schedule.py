@@ -33,7 +33,7 @@ try:
 
     def my_listener(event):
         if event.exception:
-            print('任务出错了。')
+            print('任务出错了。'+event)
             # sms.send_wrong_sms()
             sched.shutdown()
             # time.sleep(5)

@@ -14,7 +14,7 @@ with open(o_path+"/json/accounts.json", 'r', encoding='UTF-8') as load_f:
     passphrase = myokapi_info['passphrase']
 futureAPI = future.FutureAPI(api_key, seceret_key, passphrase, True)
 
-instrument = ['BTC-USD-210326','BTC-USD-210625']
+instrument = ['BTC-USD-210625','BTC-USD-210924']
 last_mail_text = ['','']
 
 
