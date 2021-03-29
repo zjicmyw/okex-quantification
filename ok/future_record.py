@@ -37,30 +37,32 @@ def bd(index):
            
             # res2 = futureAPI.get_fills('BTC-USD-210326', after='4096402419785729')
             # print(res2[0][0]['price'],res2[0][0]['created_at'],res2[0][0]['side'])
-
-        if my_future['long_qty'] == '0' and my_future['short_qty'] == '0':
-            qty_type = 0  # 空仓
-            mail_text = '空仓，{}：{}-{}'.format(
-                res2[0][0]['created_at'],res2[0][0]['side'],res2[0][0]['price'])
-            sms_text = '记得看太阳下山'
+        if len(res2[0])==0:
+            print(instrument[index]+'暂无持仓')
         else:
-            if my_future['long_qty'] == '0':
-                mail_text = '当前持仓{}空。上次动作：{}：{}-{}'.format(
-                    my_future['short_avg_cost'], res2[0][0]['created_at'],res2[0][0]['side'],res2[0][0]['price'])
-                qty_type = 2  # 开空
-                sms_text = '今天乌云密布'
-            elif my_future['short_qty'] == '0':
-                mail_text = '当前持仓{}多。上次动作：{}：{}-{}'.format(
-                    my_future['long_avg_cost'], res2[0][0]['created_at'],res2[0][0]['side'],res2[0][0]['price'])
-                qty_type = 1  # 开多
-                sms_text = '今天万里晴空'
+            if my_future['long_qty'] == '0' and my_future['short_qty'] == '0':
+                qty_type = 0  # 空仓
+                mail_text = '空仓，{}：{}-{}'.format(
+                    res2[0][0]['created_at'],res2[0][0]['side'],res2[0][0]['price'])
+                sms_text = '记得看太阳下山'
             else:
-                mail_text = '多空双开，当前持仓{}多，{}空。上次动作：{}：{}-{}'.format(
-                    my_future['long_avg_cost'],my_future['short_avg_cost'], res2[0][0]['created_at'],res2[0][0]['side'],res2[0][0]['price'])
-                qty_type = 4  # 多空双开
-                sms_text = '记得看月亮'
-        mail_text = instrument[index]+mail_text
-        tools.time_print(mail_text)
+                if my_future['long_qty'] == '0':
+                    mail_text = '当前持仓{}空。上次动作：{}：{}-{}'.format(
+                        my_future['short_avg_cost'], res2[0][0]['created_at'],res2[0][0]['side'],res2[0][0]['price'])
+                    qty_type = 2  # 开空
+                    sms_text = '今天乌云密布'
+                elif my_future['short_qty'] == '0':
+                    mail_text = '当前持仓{}多。上次动作：{}：{}-{}'.format(
+                        my_future['long_avg_cost'], res2[0][0]['created_at'],res2[0][0]['side'],res2[0][0]['price'])
+                    qty_type = 1  # 开多
+                    sms_text = '今天万里晴空'
+                else:
+                    mail_text = '多空双开，当前持仓{}多，{}空。上次动作：{}：{}-{}'.format(
+                        my_future['long_avg_cost'],my_future['short_avg_cost'], res2[0][0]['created_at'],res2[0][0]['side'],res2[0][0]['price'])
+                    qty_type = 4  # 多空双开
+                    sms_text = '记得看月亮'
+            mail_text = instrument[index]+mail_text
+            tools.time_print(mail_text)
     except Exception as e:
         print("future_record.py -bd()出現异常:",e)
     if mail_text != '':
