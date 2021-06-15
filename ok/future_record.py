@@ -31,7 +31,7 @@ def bd(index):
         # long_avg_cost  short_avg_cost 开仓平均价
         # long_settlement_price short_settlement_price  结算基准价
         my_future = result['holding'][0]  # 我的持仓数据
-        res2 = futureAPI.get_fills(instrument[index], after='4096402419785729') # 我的订单数据
+        res2 = futureAPI.get_fills(instrument[index], after='4196402419785729') # 我的订单数据
         # if __name__ == "__main__":
         #     pass
            

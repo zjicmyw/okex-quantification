@@ -17,6 +17,10 @@ futureAPI = future.FutureAPI(api_key, seceret_key, passphrase, True)
 instrument = 'BTC-USD-210326'
 # 记录okex期货下单 并发邮件
 
+ # 公共-获取法币汇率 （20次/2s）（根据ip限速）
+result = futureAPI.get_rate()
+print(result)
+
 
 def bd():
     mail_text = ''  # 邮件内容
@@ -117,5 +121,6 @@ def take_order(qty_type):
 
 
 if __name__ == "__main__":
-    bd()
+    # bd()
     # sms_send.send_wecaht('111111','23')
+    pass
