@@ -67,15 +67,18 @@ def bd(index):
             tools.time_print(mail_text)
     except Exception as e:
         print("future_record.py -bd()出现异常:", e)
-        exception_num = exception_num+1
+        global exception_num
+        exception_num += 1
         if exception_num==5 or exception_num==20  or exception_num==50 :
             sms_send.send_wecaht('future_record出现异常', e)
+            sms_send.send('future_record出现异常',True)
     if mail_text != '':
         if last_mail_text[index] == mail_text:
             print('持仓无变化')
         else:
             last_mail_text[index] = mail_text
             sms_send.send_wecaht(sms_text, mail_text)
+            sms_send.send(sms_text,False)
 
 
 '''
