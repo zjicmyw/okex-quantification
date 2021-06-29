@@ -71,14 +71,16 @@ def bd(index):
         exception_num += 1
         if exception_num==5 or exception_num==20  or exception_num==50 :
             sms_send.send_wecaht('future_record出现异常', e)
-            sms_send.send('future_record出现异常',True)
+            sms_send.send_to_wecom('future_record出现异常')
+            # sms_send.send('future_record出现异常',True)
     if mail_text != '':
         if last_mail_text[index] == mail_text:
             print('持仓无变化')
         else:
             last_mail_text[index] = mail_text
             sms_send.send_wecaht(sms_text, mail_text)
-            sms_send.send(sms_text,False)
+            # sms_send.send(sms_text,False)
+            sms_send.send_to_wecom(sms_text+mail_text)
 
 
 '''
