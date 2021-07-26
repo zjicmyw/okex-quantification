@@ -28,32 +28,37 @@ def send_wrong_sms():
                       data=sms_wrong_config)
     print(r)
 
+
 def send_normal_sms():
     r = requests.post("https://api.mysubmail.com/message/send",
                       data=sms_normal_config)
     print(r)
 
-def send_wecaht(title,desp):
-    r = requests.get("https://sc.ftqq.com/SCU153099T7981d7e4bd60158a48b6f9f9f37e3da9600958eaaef11.send?text={}&desp={}".format('趋势提醒：'+title,desp))
+
+def send_wecaht(title, desp):
+    r = requests.get(
+        "https://sc.ftqq.com/SCU153099T7981d7e4bd60158a48b6f9f9f37e3da9600958eaaef11.send?text={}&desp={}".format('趋势提醒：'+title, desp))
     print(r)
 
 
-def send_to_wecom(text,wecom_touid='@all'):
+def send_to_wecom(text, wecom_touid='@all'):
     get_token_url = f"https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={wecom_cid}&corpsecret={wecom_secret}"
     response = requests.get(get_token_url).content
     access_token = json.loads(response).get('access_token')
     if access_token and len(access_token) > 0:
         send_msg_url = f'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={access_token}'
         data = {
-            "touser":wecom_touid,
-            "agentid":wecom_aid,
-            "msgtype":"text",
-            "text":{
-                "content":text
+            "touser": wecom_touid,
+            "agentid": wecom_aid,
+            "msgtype": "text",
+            "text": {
+                "content": text
             },
-            "duplicate_check_interval":600
+            "duplicate_check_interval": 600
         }
-        response = requests.post(send_msg_url,data=json.dumps(data)).content
+        response = requests.post(send_msg_url, data=json.dumps(data)).content
+        print(response)
         return response
+    
     else:
         return False

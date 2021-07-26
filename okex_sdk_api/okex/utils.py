@@ -21,6 +21,8 @@ def get_header(api_key, sign, timestamp, passphrase):
     header[c.OK_ACCESS_SIGN] = sign
     header[c.OK_ACCESS_TIMESTAMP] = str(timestamp)
     header[c.OK_ACCESS_PASSPHRASE] = passphrase
+    # 模拟盘账户需要这个参数，实盘不需要
+    # header['x-simulated-trading'] = '1'
 
     return header
 

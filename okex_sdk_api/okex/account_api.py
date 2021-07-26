@@ -7,6 +7,13 @@ class AccountAPI(Client):
     def __init__(self, api_key, api_secret_key, passphrase, use_server_time=False):
         Client.__init__(self, api_key, api_secret_key, passphrase, use_server_time)
 
+    # 
+    def get_token_balance(self, currency):
+        return self._request_without_params(GET, CCY_INFO + str(currency))
+    # 
+    def get_account_positions(self):
+        return self._request_without_params(GET, POSITIONS_INFO)
+
     # get all currencies list
     def get_currencies(self):
         return self._request_without_params(GET, CURRENCIES_INFO)

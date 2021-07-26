@@ -1,5 +1,6 @@
 
 # http header
+# API_URL = 'https://aws.okex.com'
 API_URL = 'https://www.okex.com'
 CONTENT_TYPE = 'Content-Type'
 OK_ACCESS_KEY = 'OK-ACCESS-KEY'
@@ -35,6 +36,11 @@ COIN_TOP_UP_RECORDS = '/api/account/v3/deposit/history'
 COIN_TOP_UP_RECORD = '/api/account/v3/deposit/history/'
 CURRENCIES_INFO = '/api/account/v3/currencies'
 COIN_FEE = '/api/account/v3/withdrawal/fee'
+
+# account-V5
+CCY_INFO = '/api/v5/account/balance?cyy='
+POSITIONS_INFO = '/api/v5/account/positions'
+
 
 # spot
 SPOT_ACCOUNT_INFO = '/api/spot/v3/accounts'
