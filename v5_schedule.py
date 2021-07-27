@@ -6,7 +6,6 @@ import datetime
 import logging
 import time
 
-ms = sql.MSSQL()
 logging.basicConfig()
 logging.getLogger('apscheduler').setLevel(logging.WARNING)
 
@@ -38,18 +37,13 @@ try:
 
     my_record()
     
-    sched.add_job(func=my_record, trigger='interval', hours=1)
+    sched.add_job(func=my_record, trigger='interval', seconds = 150)
    
     sched.add_listener(my_listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
     sched._logger = logging
     sched.start()
 except Exception as e:
-    # sms.send_wrong_sms()
-    nowtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    newsql = "insert into tab_send_email (address_to,mail_subject,mail_text) values('e7lian@qq.com','定时任务出现问题'+'" + \
-        nowtime + "','" + str(e) + "')"
     tools.warning(str(e))
-    ms.ExecNonQuery(newsql)
     sched.shutdown()
     time.sleep(5)
     sched.start()

@@ -33,6 +33,7 @@ def okex_v5():
         # print(result)
         mail_text = {}
         text = ''
+        sms_text = ''
         global last_mail_text
         if result['code'] == '0':
             for position in result['data']:
@@ -54,12 +55,12 @@ def okex_v5():
                 mail_text[instType] = text
 
             if last_mail_text == mail_text:
-                print('持仓无变化')
+                tools.warning('持仓无变化')
             else:
                 last_mail_text = mail_text
-                print(last_mail_text)
+                tools.warning(str(last_mail_text))
                 sms_send.send_wecaht(sms_text, mail_text)
-                sms_send.send_to_wecom(mail_text)
+                sms_send.send_to_wecom(str(mail_text))
 
         """
         instType	String	产品类型
@@ -89,7 +90,7 @@ def okex_v5():
         """
 
     except Exception as e:
-        print('记录期货账户持仓检测异常:', e)
+        print('记录期货账户持仓检测异常:', str(e))
 
 
 def timestamp_to_str(timeStamp):
