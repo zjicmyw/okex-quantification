@@ -17,6 +17,7 @@ last_mail_text = {
     'FUTURES': '',
     'OPTION': ''
 }
+last_usdt_balance = 0
 
 with open(o_path+"/json/accounts.json", 'r', encoding='UTF-8') as load_f:
     myokapi_info = json.load(load_f)['myokapi-v5']
@@ -27,40 +28,56 @@ with open(o_path+"/json/accounts.json", 'r', encoding='UTF-8') as load_f:
 
 def okex_v5():
     try: 
-        accountAPI = account.AccountAPI(api_key, secret_key, passphrase, False)
-        result = accountAPI.get_account_positions()
-        # result = accountAPI.get_token_balance('btc')
-        # print(result)
+        global last_mail_text,last_usdt_balance
         mail_text = {}
         text = ''
         sms_text = ''
-        global last_mail_text
-        if result['code'] == '0':
-            for position in result['data']:
-                instType = position['instType']
-                instId = position['instId']
-                posSide = position['posSide']
-                liqPx = position['liqPx']
-                last = position['last']
-                uTime = timestamp_to_str(int(position['uTime']))
-                context = '{}:{}-{}-开单：{}-{}。开仓后，清算价变为{}。'.format(
-                    uTime, instType, instId, posSide, last, liqPx)
-                sms_text = '量化'
+        accountAPI = account.AccountAPI(api_key, secret_key, passphrase, False)
+        result = accountAPI.get_account_positions()
+        balance = accountAPI.get_token_balance('usdt')
+        if balance['code'] == '0':
+            usdt_balance =balance['data'][0]['details'][0]['eq']
+            if last_usdt_balance != usdt_balance:
+                last_usdt_balance = usdt_balance
+                mail_text = '持有'+last_usdt_balance
 
-                if instType == 'FUTURES':
-                    text = text + context
+                if last_mail_text == mail_text:
+                    tools.warning('持仓无变化')
                 else:
-                    text = context
+                    last_mail_text = mail_text
+                    tools.warning(str(last_mail_text))
+                    sms_send.send_wecaht(sms_text, mail_text)
+                    sms_send.send_to_wecom(str(mail_text))
+      
 
-                mail_text[instType] = text
+    
 
-            if last_mail_text == mail_text:
-                tools.warning('持仓无变化')
-            else:
-                last_mail_text = mail_text
-                tools.warning(str(last_mail_text))
-                sms_send.send_wecaht(sms_text, mail_text)
-                sms_send.send_to_wecom(str(mail_text))
+        # if result['code'] != '0':
+        #     for position in result['data']:
+        #         instType = position['instType']
+        #         instId = position['instId']
+        #         posSide = position['posSide']
+        #         liqPx = position['liqPx']
+        #         last = position['last']
+        #         uTime = timestamp_to_str(int(position['uTime']))
+        #         context = '{}:{}-{}-开单：{}-{}。开仓后，清算价变为{}。'.format(
+        #             uTime, instType, instId, posSide, last, liqPx)
+        #         sms_text = '量化'
+
+        #         if instType == 'FUTURES':
+        #             text = text + context
+        #         else:
+        #             text = context
+
+        #         mail_text[instType] = text
+
+        #     if last_mail_text == mail_text:
+        #         tools.warning('持仓无变化')
+        #     else:
+        #         last_mail_text = mail_text
+        #         tools.warning(str(last_mail_text))
+        #         # sms_send.send_wecaht(sms_text, mail_text)
+        #         # sms_send.send_to_wecom(str(mail_text))
 
         """
         instType	String	产品类型
