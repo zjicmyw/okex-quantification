@@ -37,9 +37,11 @@ COIN_TOP_UP_RECORD = '/api/account/v3/deposit/history/'
 CURRENCIES_INFO = '/api/account/v3/currencies'
 COIN_FEE = '/api/account/v3/withdrawal/fee'
 
-# account-V5
+# V5
 CCY_INFO = '/api/v5/account/balance?cyy='
 POSITIONS_INFO = '/api/v5/account/positions'
+ORDER_INFO = '/api/v5/trade/order?instId='
+LAST_ORDER_HISTORY = '/api/v5/trade/orders-history?instType=SPOT&limit=1'
 
 
 # spot

@@ -33,23 +33,33 @@ def okex_v5():
         text = ''
         sms_text = ''
         accountAPI = account.AccountAPI(api_key, secret_key, passphrase, False)
-        result = accountAPI.get_account_positions()
-        balance = accountAPI.get_token_balance('usdt')
-        if balance['code'] == '0':
-            usdt_balance =balance['data'][0]['details'][0]['eq']
-            if last_usdt_balance != usdt_balance:
-                last_usdt_balance = usdt_balance
-                mail_text = '持有'+last_usdt_balance
 
-                if last_mail_text == mail_text:
-                    tools.warning('持仓无变化')
-                else:
-                    last_mail_text = mail_text
-                    tools.warning(str(last_mail_text))
-                    sms_send.send_wecaht(sms_text, mail_text)
-                    sms_send.send_to_wecom(str(mail_text))
+
+        # 现货版本 
+
+        last_order_history = accountAPI.get_last_order_history()
+        if last_order_history['code'] == '0':
+            data = last_order_history['data'][0]
+            uTime = timestamp_to_str(int(data['fillTime']))
+
+            mail_text['SPOT'] = '{}:{}-开单：{}-{},{}。'.format(
+                                uTime, data['instId'],data['side'],data['fillPx'], data['accFillSz'])
+
+            if last_mail_text == mail_text:
+                tools.warning('持仓无变化')
+            else:
+                last_mail_text = mail_text
+                tools.warning(str(last_mail_text))
+                sms_send.send_wecaht(sms_text, mail_text)
+                sms_send.send_to_wecom(str(mail_text))
+        else:
+            print('获取出错'+last_order_history)
+            
+            
+            
+            
       
-
+        # 期货版本
     
 
         # if result['code'] != '0':

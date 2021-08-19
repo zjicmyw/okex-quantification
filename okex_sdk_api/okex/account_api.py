@@ -14,6 +14,15 @@ class AccountAPI(Client):
     def get_account_positions(self):
         return self._request_without_params(GET, POSITIONS_INFO)
 
+    # 
+    def get_order_info(self,instId):
+        return self._request_without_params(GET, ORDER_INFO+ str(instId))
+
+    # 
+    def get_last_order_history(self):
+        return self._request_without_params(GET, LAST_ORDER_HISTORY)
+        
+
     # get all currencies list
     def get_currencies(self):
         return self._request_without_params(GET, CURRENCIES_INFO)
