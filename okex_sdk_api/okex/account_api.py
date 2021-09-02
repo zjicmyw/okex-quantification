@@ -18,7 +18,7 @@ class AccountAPI(Client):
     def get_order_info(self,instId):
         return self._request_without_params(GET, ORDER_INFO+ str(instId))
 
-    # 
+    # 获取历史订单记录（近七天）
     def get_last_order_history(self):
         return self._request_without_params(GET, LAST_ORDER_HISTORY)
         
