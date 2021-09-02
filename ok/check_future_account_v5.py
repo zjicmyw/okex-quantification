@@ -39,8 +39,8 @@ def okex_v5():
 
         last_order_history = accountAPI.get_last_order_history()
         if last_order_history['code'] == '0':
-            print(last_order_history)
-            print(len(last_order_history['data']))
+            # print(last_order_history)
+            # print(len(last_order_history['data']))
             if len(last_order_history['data'])==0:
                  tools.warning('持仓无变化')
             else:
